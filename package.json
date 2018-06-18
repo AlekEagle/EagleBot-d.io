@@ -1,0 +1,13 @@
+{
+  "name": "alekaagleyts_bot",
+  "version": "1.0.0",
+  "description": "My own Discord bot",
+  "main": "bot.js",
+  "author": "AlekEagleYT",
+  "dependencies": {
+    "config": "^1.30.0",
+    "discord.io": "^2.5.3",
+    "pmx": "^1.6.4",
+    "winston": "^2.4.0"
+  }
+}

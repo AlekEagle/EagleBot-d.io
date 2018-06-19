@@ -52,9 +52,12 @@ function sendAMessage(ch, message) {
     }, outputLog());
 }
 function outputLog(err, res) {
-    console.log(err);
-    console.log(res);
-
+    if (err != undefined) {
+        console.log(err);
+    }
+    if (res != undefined) {
+        console.log(res);
+    }
 }
 
 bot.on('message', function (user, userID, channelID, message, event) {

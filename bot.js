@@ -732,7 +732,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'invite':
-                sendAMessage(channelID, 'Ok the link to invite me is: https://discordapp.com/api/oauth2/authorize?client_id=41627455216177282&permissions=432536646&scope=bot')
+                sendAMessage(channelID, 'Ok the link to invite me is: https://discordapp.com/api/oauth2/authorize?client_id=416274552126177282&permissions=499645511&redirect_uri=https%3A%2F%2Fdiscord.gg%2FKNvbtCb&scope=bot')
             break;
             case 'anti-hack':
                 sendAMessage(channelID, '<@' + userID + '> has activated my anti-hack defenses! anyone trying to hacc me will parish, ~~(and it probably won\'t happen because <@' + creatorID + '> will try not to make the mistake again)~~')

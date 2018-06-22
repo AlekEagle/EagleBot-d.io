@@ -419,38 +419,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
             case 'test':
                 bot.getMember({
                     serverID: retrieveServerID(),
-                    userID: userID
-                }, (e, aa) => {
-                    console.log(aa)
-                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
-                        var string = data.toString('utf8').replace(/,/g, '; ');
-                        var i = 0;
-                        var y = 0;
-                        var noPerm = false;
-                        var stopLoop = false;
-                        do {
-                            console.log(noPerm)
-                            console.log(stopLoop)
-                            console.log(aa.roles[y])
-                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
-                                var hasPermission = true;
-                                stopLoop = 1;
-                            }else {
-                                y = ++y
-                                if (aa.roles[y] == undefined) {
-                                    noPerm = true;
-                                    stopLoop = true;
-                                }
-                            }
-                        } while (stopLoop == false);
-                        if (noPerm == 1) {
-                            var hasPermission = false;
-                        } 
-                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
-                    });
-                    
-
-                });
+                    userID: bot.id
+                }, function(e, bb) {
+                    console.log(bb);
+                })
             break;
             case 'config':
                 fs.access('./allowed_roles/' + retrieveServerID() + '.settings', fs.constants.F_OK, (err) => {
@@ -877,6 +849,122 @@ bot.on('message', function (user, userID, channelID, message, event) {
      }
      if (message.includes('my') == true && message.includes('birthday') == true && message.includes('today') == true) {
          sendAMessage(channelID, '<@' + userID + '> here is a well constructed paragraph of me wishing you a happy birthday and hoping that you will get the most enjoyment out of your day instead of eating a tuna fish sandwich for lunch. You have successfully survived 365 days of the Earth\'s cycle  orbiting around the sun. This is an accomplishment that everyone should enjoy as it is a milestone of their life. And every milestone adds an additional number to your age which also dictates your maturity. Anyway, to complete your ritual in successfully becoming older, you must produce a cake that has the ingredients: milk, butter, and eggs so that you can be protected from aging too quickly but not live forever. You can\'t live forever so this will do. You have the option to "make a wish" if you do so desire as you blow the the right amount of candles that is equal to your age. Wishes can be rarely granted to anyone on their birthday so don\'t waste this opportunity of yours.\n\nlol im done happy 365 days of living lawl')
+     }
+     if (message.includes('im') == true) {
+         var imThing = message.split(' ')
+         if (imThing[0] == 'im') {
+            var imName = message.split(' ').splice(1).join(' ')
+            bot.getMember({
+                serverID: retrieveServerID(),
+                userID: bot.id
+             }, function(e, bb) {
+                if (bb.nick == undefined) {
+                    var botNick = bb.user.username
+                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
+                    bot.editNickname({
+                       serverID: retrieveServerID(),
+                       userID: userID,
+                       nick: imName
+                    }, outputLog);
+                }else {
+                    var botNick = bb.nick
+                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
+                    bot.editNickname({
+                       serverID: retrieveServerID(),
+                       userID: userID,
+                       nick: imName
+                    }, outputLog);
+                }
+            });
+        }
+     }
+     if (message.includes('Im') == true) {
+        var imThing = message.split(' ')
+        if (imThing[0] == 'Im') {
+           var imName = message.split(' ').splice(1).join(' ')
+           bot.getMember({
+               serverID: retrieveServerID(),
+               userID: bot.id
+            }, function(e, bb) {
+                if (bb.nick == undefined) {
+                    var botNick = bb.user.username
+                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
+                    bot.editNickname({
+                       serverID: retrieveServerID(),
+                       userID: userID,
+                       nick: imName
+                    }, outputLog);
+                }else {
+                    var botNick = bb.nick
+                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
+                    bot.editNickname({
+                       serverID: retrieveServerID(),
+                       userID: userID,
+                       nick: imName
+                    }, outputLog);
+                }
+           });
+       }
+         
+     }
+    if (message.includes('I\'m') == true) {
+        var imThing = message.split(' ')
+        if (imThing[0] == 'I\'m') {
+           var imName = message.split(' ').splice(1).join(' ')
+           bot.getMember({
+               serverID: retrieveServerID(),
+               userID: bot.id
+            }, function(e, bb) {
+                if (bb.nick == undefined) {
+                    var botNick = bb.user.username
+                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
+                    bot.editNickname({
+                       serverID: retrieveServerID(),
+                       userID: userID,
+                       nick: imName
+                    }, outputLog);
+                }else {
+                    var botNick = bb.nick
+                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
+                    bot.editNickname({
+                       serverID: retrieveServerID(),
+                       userID: userID,
+                       nick: imName
+                    }, outputLog);
+                }
+           });
+       }
+         
+     }
+     if (message.includes('i\'m') == true) {
+        var imThing = message.split(' ')
+        if (imThing[0] == 'i\'m') {
+            var imName = message.split(' ').splice(1).join(' ')
+            bot.getMember({
+                serverID: retrieveServerID(),
+                userID: bot.id
+            }, function(e, bb) {
+                if (bb.nick == undefined) {
+                    var botNick = bb.user.username
+                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
+                    bot.editNickname({
+                       serverID: retrieveServerID(),
+                       userID: userID,
+                       nick: imName
+                    }, outputLog);
+                }else {
+                    var botNick = bb.nick
+                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
+                    bot.editNickname({
+                       serverID: retrieveServerID(),
+                       userID: userID,
+                       nick: imName
+                    }, outputLog);
+                }
+                
+           });
+       }
+         
      }
 });
     

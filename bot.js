@@ -19,6 +19,18 @@ logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {
     colorize: true
 });
+String.prototype.toHHMMSS = function () {
+    var sec_num = parseInt(this, 10);
+    var hours = Math.floor(sec_num /3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours < 10) {hours = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    var time = hours+':'+minutes+':'+seconds;
+    return time;
+}
 logger.level = 'debug';
 // Initialize Discord Bot
 var bot = new Discord.Client({
@@ -183,7 +195,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     channelID: channelID,
                                     limit: parsedNumToDelete
                                 }, (e, a) => {
-                                    console.log(a);
+//                                    console.log(a);
                                     bot.deleteMessages({channelID, messageIDs: a.map(m => m.id)}, () => {
                                         sendAMessage(channelID, 'deleted ' + numToDelete + ' messages. :thumbsup:')
                                     });
@@ -845,127 +857,17 @@ bot.on('message', function (user, userID, channelID, message, event) {
 
                 });
             break;
+            case 'info':
+                var time = process.uptime();
+                var uptime = (time + "").toHHMMSS();
+                var osTime = require('os').uptime();
+                var osUptime = (osTime + "").toHHMMSS();
+                sendAMessage(channelID, 'Ummm... I\'m a Discord Bot.\n I was made by **__AlekEagle#6978__**\n*What else is there about me?* I use the Discord.io library\nThis right there ==> **__' + uptime + '__** is how long I\'ve been running.\nThe computer running me has been on for this ==> **__' + osUptime + '__** and I\'m ran on a Raspberry Pi 3 B\nThat\'s all I know about myself')
          }
      }
-     if (message.includes('my') == true && message.includes('birthday') == true && message.includes('today') == true) {
-         sendAMessage(channelID, '<@' + userID + '> here is a well constructed paragraph of me wishing you a happy birthday and hoping that you will get the most enjoyment out of your day instead of eating a tuna fish sandwich for lunch. You have successfully survived 365 days of the Earth\'s cycle  orbiting around the sun. This is an accomplishment that everyone should enjoy as it is a milestone of their life. And every milestone adds an additional number to your age which also dictates your maturity. Anyway, to complete your ritual in successfully becoming older, you must produce a cake that has the ingredients: milk, butter, and eggs so that you can be protected from aging too quickly but not live forever. You can\'t live forever so this will do. You have the option to "make a wish" if you do so desire as you blow the the right amount of candles that is equal to your age. Wishes can be rarely granted to anyone on their birthday so don\'t waste this opportunity of yours.\n\nlol im done happy 365 days of living lawl')
-     }
-     if (message.includes('im') == true) {
-         var imThing = message.split(' ')
-         if (imThing[0] == 'im') {
-            var imName = message.split(' ').splice(1).join(' ')
-            bot.getMember({
-                serverID: retrieveServerID(),
-                userID: bot.id
-             }, function(e, bb) {
-                if (bb.nick == undefined) {
-                    var botNick = bb.user.username
-                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
-                    bot.editNickname({
-                       serverID: retrieveServerID(),
-                       userID: userID,
-                       nick: imName
-                    }, outputLog);
-                }else {
-                    var botNick = bb.nick
-                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
-                    bot.editNickname({
-                       serverID: retrieveServerID(),
-                       userID: userID,
-                       nick: imName
-                    }, outputLog);
-                }
-            });
-        }
-     }
-     if (message.includes('Im') == true) {
-        var imThing = message.split(' ')
-        if (imThing[0] == 'Im') {
-           var imName = message.split(' ').splice(1).join(' ')
-           bot.getMember({
-               serverID: retrieveServerID(),
-               userID: bot.id
-            }, function(e, bb) {
-                if (bb.nick == undefined) {
-                    var botNick = bb.user.username
-                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
-                    bot.editNickname({
-                       serverID: retrieveServerID(),
-                       userID: userID,
-                       nick: imName
-                    }, outputLog);
-                }else {
-                    var botNick = bb.nick
-                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
-                    bot.editNickname({
-                       serverID: retrieveServerID(),
-                       userID: userID,
-                       nick: imName
-                    }, outputLog);
-                }
-           });
-       }
-         
-     }
-    if (message.includes('I\'m') == true) {
-        var imThing = message.split(' ')
-        if (imThing[0] == 'I\'m') {
-           var imName = message.split(' ').splice(1).join(' ')
-           bot.getMember({
-               serverID: retrieveServerID(),
-               userID: bot.id
-            }, function(e, bb) {
-                if (bb.nick == undefined) {
-                    var botNick = bb.user.username
-                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
-                    bot.editNickname({
-                       serverID: retrieveServerID(),
-                       userID: userID,
-                       nick: imName
-                    }, outputLog);
-                }else {
-                    var botNick = bb.nick
-                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
-                    bot.editNickname({
-                       serverID: retrieveServerID(),
-                       userID: userID,
-                       nick: imName
-                    }, outputLog);
-                }
-           });
-       }
-         
-     }
-     if (message.includes('i\'m') == true) {
-        var imThing = message.split(' ')
-        if (imThing[0] == 'i\'m') {
-            var imName = message.split(' ').splice(1).join(' ')
-            bot.getMember({
-                serverID: retrieveServerID(),
-                userID: bot.id
-            }, function(e, bb) {
-                if (bb.nick == undefined) {
-                    var botNick = bb.user.username
-                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
-                    bot.editNickname({
-                       serverID: retrieveServerID(),
-                       userID: userID,
-                       nick: imName
-                    }, outputLog);
-                }else {
-                    var botNick = bb.nick
-                    sendAMessage(channelID, 'Hi <@' + userID + '>, I\'m ' + botNick)
-                    bot.editNickname({
-                       serverID: retrieveServerID(),
-                       userID: userID,
-                       nick: imName
-                    }, outputLog);
-                }
-                
-           });
-       }
-         
-     }
+//     if (message.includes('my') == true && message.includes('birthday') == true && message.includes('today') == true) {
+//         sendAMessage(channelID, '<@' + userID + '> here is a well constructed paragraph of me wishing you a happy birthday and hoping that you will get the most enjoyment out of your day instead of eating a tuna fish sandwich for lunch. You have successfully survived 365 days of the Earth\'s cycle  orbiting around the sun. This is an accomplishment that everyone should enjoy as it is a milestone of their life. And every milestone adds an additional number to your age which also dictates your maturity. Anyway, to complete your ritual in successfully becoming older, you must produce a cake that has the ingredients: milk, butter, and eggs so that you can be protected from aging too quickly but not live forever. You can\'t live forever so this will do. You have the option to "make a wish" if you do so desire as you blow the the right amount of candles that is equal to your age. Wishes can be rarely granted to anyone on their birthday so don\'t waste this opportunity of yours.\n\nlol im done happy 365 days of living lawl')
+//     }
 });
     
     

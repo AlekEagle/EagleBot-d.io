@@ -87,8 +87,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
         	messageID: event.d.id
         });
     }
-        
-    if (message.substring(0, 1) == prefix) {
+   
+     if (message.substring(0, 1) == prefix && bot.users[userID].bot == false) {
         var args = message.substring(1).split(' ');
         var cmd = args[0];
        args = args.splice(1);
@@ -863,8 +863,18 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 var osTime = require('os').uptime();
                 var osUptime = (osTime + "").toHHMMSS();
                 sendAMessage(channelID, 'Ummm... I\'m a Discord Bot.\n I was made by **__AlekEagle#6978__**\n*What else is there about me?* I use the Discord.io library\nThis right there ==> **__' + uptime + '__** is how long I\'ve been running.\nThe computer running me has been on for this ==> **__' + osUptime + '__** and I\'m ran on a Raspberry Pi 3 B\nThat\'s all I know about myself')
+            break;
+            case 'uptime':
+                var time = process.uptime();
+                var uptime = (time + "").toHHMMSS();
+                var osTime = require('os').uptime();
+                var osUptime = (osTime + "").toHHMMSS();
+                sendAMessage(channelID, 'I\'ve been alive for **__' + uptime + '__**\nThe computer running me has been online for **__' + osUptime + '__**');
+            break;
          }
-     }
+            }
+        
+     
 //     if (message.includes('my') == true && message.includes('birthday') == true && message.includes('today') == true) {
 //         sendAMessage(channelID, '<@' + userID + '> here is a well constructed paragraph of me wishing you a happy birthday and hoping that you will get the most enjoyment out of your day instead of eating a tuna fish sandwich for lunch. You have successfully survived 365 days of the Earth\'s cycle  orbiting around the sun. This is an accomplishment that everyone should enjoy as it is a milestone of their life. And every milestone adds an additional number to your age which also dictates your maturity. Anyway, to complete your ritual in successfully becoming older, you must produce a cake that has the ingredients: milk, butter, and eggs so that you can be protected from aging too quickly but not live forever. You can\'t live forever so this will do. You have the option to "make a wish" if you do so desire as you blow the the right amount of candles that is equal to your age. Wishes can be rarely granted to anyone on their birthday so don\'t waste this opportunity of yours.\n\nlol im done happy 365 days of living lawl')
 //     }

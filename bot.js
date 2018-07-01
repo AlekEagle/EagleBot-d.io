@@ -161,7 +161,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-//                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -237,7 +236,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -254,7 +252,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     channelID: channelID,
                                     limit: parsedNumToDelete
                                 }, (e, a) => {
-//                                    console.log(a);
                                     bot.deleteMessages({channelID, messageIDs: a.map(m => m.id)}, () => {
                                         sendAMessage(channelID, 'deleted ' + numToDelete + ' messages. :thumbsup:');
                                         bot.getMember({
@@ -331,7 +328,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -386,7 +382,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -437,7 +432,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -496,7 +490,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -590,7 +583,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             serverID: retrieveServerID(),
                             userID: userID
                         }, (e, aa) => {
-                            console.log(aa)
                             fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                                 var string = data.toString('utf8').replace(/,/g, '; ');
                                 var i = 0;
@@ -690,7 +682,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -742,7 +733,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -794,7 +784,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -954,7 +943,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -1049,7 +1037,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -1102,7 +1089,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;
@@ -1155,7 +1141,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, (e, aa) => {
-                    console.log(aa)
                     fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
                         var string = data.toString('utf8').replace(/,/g, '; ');
                         var i = 0;

@@ -2,6 +2,9 @@ var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./.auth.json');
 var fs = require('fs');
+var sys = require('sys');
+var exec = require('child_process').exec;
+function puts(error, stdout, stderr) { sys.puts(stdout) }
 const request = require('request');
 var pmx = require('pmx').init({
     http : true,
@@ -261,6 +264,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                             console.log(bb);
                                             console.log('Used del!');
                                         });
+                                        setTimeout(delPrevMessage(), 5000);
                                     });
                                 });
                                 stopLoop = true;
@@ -916,7 +920,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 userID: userID
                             }, function(e, bb) {
                                 console.log(bb);
-                                console.log('Used listmeme!');
+                                console.log('Used meme listmeme!');
                             });
                         });
                     break;
@@ -1250,6 +1254,26 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }, function(e, bb) {
                     console.log(bb);
                     console.log('Used blowup!');
+                });
+            break;
+            case 'ping':
+                const then = Date.now();
+                bot.sendMessage({
+                    to: channelID,
+                    message: 'Pinging...'
+                }, function (err, res) {
+                    bot.editMessage({
+                        channelID: channelID,
+                        messageID: res.id,
+                        message: 'Pong! ' + (Date.now() - then) + 'ms'
+                    });
+                })
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Used ping!');
                 });
         }
             }

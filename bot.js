@@ -2,6 +2,7 @@ var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./.auth.json');
 var fs = require('fs');
+const request = require('request');
 var pmx = require('pmx').init({
     http : true,
     ignore_routes : [/socket\.io/, /notFound/],
@@ -71,7 +72,28 @@ function outputLog(err, res) {
         console.log(res);
     }
 }
-
+bot.on("guildCreate", function guildCreate() {
+    request.post({
+        headers: {
+            "Authorization": auth.dblToken,
+        },
+        url: `https://discordbots.org/api/bots/416274552126177282/stats`,
+        json: true,
+        body: {"server_count": Object.keys(bot.servers).length}
+    }, function (err, resp, body) {
+    });
+});
+bot.on("guildDelete", function guildDelete() {
+    request.post({
+        headers: {
+            "Authorization": auth.dblToken,
+        },
+        url: `https://discordbots.org/api/bots/416274552126177282/stats`,
+        json: true,
+        body: {"server_count": Object.keys(bot.servers).length}
+    }, function (err, resp, body) {
+    });
+});
 bot.on('message', function (user, userID, channelID, message, event) {
     
     // Our bot needs to know if it will execute a command
@@ -171,7 +193,9 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     userID: userID
                 }, function(e, bb) {
                     var sayCommand = message.split(' ').slice(1).join(' ')
-                    console.log('user info:\n' + bb + '\nuser made bot say: ' + sayCommand)
+                    console.log('user info:')
+                    console.log(bb);
+                    console.log('user made bot say: ' + sayCommand);
                     delPrevMessage();
                     sendAMessage(channelID, sayCommand)
                 });
@@ -203,7 +227,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 }, (e, a) => {
 //                                    console.log(a);
                                     bot.deleteMessages({channelID, messageIDs: a.map(m => m.id)}, () => {
-                                        sendAMessage(channelID, 'deleted ' + numToDelete + ' messages. :thumbsup:')
+                                        sendAMessage(channelID, 'deleted ' + numToDelete + ' messages. :thumbsup:');
                                     });
                                 });
                                 stopLoop = 1;
@@ -435,12 +459,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
             	
             break;
             case 'test':
-                bot.getMember({
-                    serverID: retrieveServerID(),
-                    userID: bot.id
-                }, function(e, bb) {
-                    console.log(bb);
-                })
+                sendAMessage(channelID, 'Uhh... Umm... I don\'t think **AlekEagle#6978** is working on anything to test atm, *though, he is making a second prefix for beta commands, as soon as he figures out how to use prefixes that are longer than 1 character long*');
+                sendAMessage(channelID, 'ERR404: TEST CMD NOT FOUND')
             break;
             case 'config':
                 fs.access('./allowed_roles/' + retrieveServerID() + '.settings', fs.constants.F_OK, (err) => {
@@ -724,7 +744,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'invite':
-                sendAMessage(channelID, 'Ok the link to invite me is: https://discordapp.com/api/oauth2/authorize?client_id=416274552126177282&permissions=499645511&redirect_uri=https%3A%2F%2Fdiscord.gg%2FKNvbtCb&scope=bot')
+                sendAMessage(channelID, 'Ok the link to invite me is: https://discordapp.com/api/oauth2/authorize?client_id=416274552126177282&permissions=499645511&scope=bot')
             break;
             case 'anti-hack':
                 sendAMessage(channelID, '<@' + userID + '> has activated my anti-hack defenses! anyone trying to hacc me will parish, ~~(and it probably won\'t happen because <@' + creatorID + '> will try not to make the mistake again)~~')
@@ -868,7 +888,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 var uptime = (time + "").toHHMMSS();
                 var osTime = require('os').uptime();
                 var osUptime = (osTime + "").toHHMMSS();
-                sendAMessage(channelID, 'Ummm... I\'m a Discord Bot.\n I was made by **__AlekEagle#6978__**\n*What else is there about me?* I use the Discord.io library\nThis right there ==> **__' + uptime + '__** is how long I\'ve been running.\nThe computer running me has been on for this ==> **__' + osUptime + '__** and I\'m ran on a Raspberry Pi 3 B\nI\'m on Discord Bot List the link is https://discordbots.org/bot/416274552126177282 enjoy!\nThat\'s all I know about myself')
+                sendAMessage(channelID, 'Ummm... I\'m a Discord Bot.\n I was made by **__AlekEagle#6978__**\n*What else is there about me?* I use the Discord.io library\nThis right there ==> **__' + uptime + '__** is how long I\'ve been running.\nThe computer running me has been on for this ==> **__' + osUptime + '__**\nI\'m ran on a Raspberry Pi 3 B\nI\'m on Discord Bot List link: https://discordbots.org/bot/416274552126177282 \nI\'m in... uhh... let me check. Ok here it is: **__' + Object.keys(bot.servers).length + '__** servers.\nThe support server is https://discord.gg/xGUC7Uh in the category "bot related stuff"\nUse `}invite` to take a clone of me with you to your server\nThat\'s all I know about myself')
             break;
             case 'uptime':
                 var time = process.uptime();
@@ -877,20 +897,51 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 var osUptime = (osTime + "").toHHMMSS();
                 sendAMessage(channelID, 'I\'ve been alive for **__' + uptime + '__**\nThe computer running me has been online for **__' + osUptime + '__**');
             break;
-            case 'stap':
+            case 'stapandreboot':
                 if (userID == creatorID) {
                     sendAMessage(channelID, 'alright AlekEagle, if you insist. Goodbye ppl, for now at least.')
-                    process.exit(0)
+                    setTimeout(process.exit(0), 5000)
                 }else {
                     sendAMessage(channelID, 'You are **NOT** the creator of the bot!')
                 }
+            break;
+            case 'eval':
+                var evalCommand = message.split(' ').splice(1).join(' ').replace(/;/g, '\;');
+                sendAMessage(channelID, eval(evalCommand))
         }
             }
         
      
-//     if (message.includes('my') == true && message.includes('birthday') == true && message.includes('today') == true) {
-//         sendAMessage(channelID, '<@' + userID + '> here is a well constructed paragraph of me wishing you a happy birthday and hoping that you will get the most enjoyment out of your day instead of eating a tuna fish sandwich for lunch. You have successfully survived 365 days of the Earth\'s cycle  orbiting around the sun. This is an accomplishment that everyone should enjoy as it is a milestone of their life. And every milestone adds an additional number to your age which also dictates your maturity. Anyway, to complete your ritual in successfully becoming older, you must produce a cake that has the ingredients: milk, butter, and eggs so that you can be protected from aging too quickly but not live forever. You can\'t live forever so this will do. You have the option to "make a wish" if you do so desire as you blow the the right amount of candles that is equal to your age. Wishes can be rarely granted to anyone on their birthday so don\'t waste this opportunity of yours.\n\nlol im done happy 365 days of living lawl')
-//     }
+     if (message == '<@' + bot.id + '> today is my birthday' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> here is a well constructed paragraph of me wishing you a happy birthday and hoping that you will get the most enjoyment out of your day instead of eating a tuna fish sandwich for lunch. You have successfully survived 365 days of the Earth\'s cycle  orbiting around the sun. This is an accomplishment that everyone should enjoy as it is a milestone of their life. And every milestone adds an additional number to your age which also dictates your maturity. Anyway, to complete your ritual in successfully becoming older, you must produce a cake that has the ingredients: milk, butter, and eggs so that you can be protected from aging too quickly but not live forever. You can\'t live forever so this will do. You have the option to "make a wish" if you do so desire as you blow the the right amount of candles that is equal to your age. Wishes can be rarely granted to anyone on their birthday so don\'t waste this opportunity of yours.\n\nlol im done happy 365 days of living lawl')
+     }
+     if (message == '<@' + bot.id + '> are you alive' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> yes, i\'m alive. now stop asking.')
+     }
+     if (message == '<@' + bot.id + '> are you still alive' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> yes, i\'m alive. now stop asking.')
+     }
+     if (message == '<@' + bot.id + '> are you dead' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> no, i\'m not dead. now stop asking.')
+     }
+     if (message == '<@' + bot.id + '> did you die' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> no, i\'m alive. now stop asking.')
+     }
+     if (message == '<@' + bot.id + '> hello' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> hello back my friend.')
+     }
+     if (message == '<@' + bot.id + '> hi' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> hello back my friend.')
+     }
+     if (message == '<@' + bot.id + '> did you hear about net neutrality' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> yes that\'s why i\'m slow and unresponsive.')
+     }
+     if (message == '<@' + bot.id + '> is your mom gay' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> before I answer that *I* must ask, is ***YOUR*** mom gay?')
+     }
+     if (message == '<@' + bot.id + '> am i the boss of you' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> No. You\'re not. bot.js my main script is the boss of me, really I\'m just a blank slate with out my main script.')
+     }
 });
     
     

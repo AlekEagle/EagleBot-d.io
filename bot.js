@@ -1,6 +1,6 @@
 var Discord = require('discord.io');
 var logger = require('winston');
-var auth = require('./.auth.json');
+var u_wot_m8 = require('./.auth.json');
 var fs = require('fs');
 var sys = require('sys');
 var exec = require('child_process').exec;
@@ -38,7 +38,7 @@ String.prototype.toHHMMSS = function () {
 logger.level = 'debug';
 // Initialize Discord Bot
 var bot = new Discord.Client({
-   token: auth.token,
+   token: u_wot_m8.token,
    autorun: true
 });
 function sleep(seconds = milliseconds * 1000) {seconds;}
@@ -78,7 +78,7 @@ function outputLog(err, res) {
 bot.on("guildCreate", function guildCreate() {
     request.post({
         headers: {
-            "Authorization": auth.dblToken,
+            "Authorization": u_wot_m8.dblToken,
         },
         url: `https://discordbots.org/api/bots/416274552126177282/stats`,
         json: true,
@@ -89,7 +89,7 @@ bot.on("guildCreate", function guildCreate() {
 bot.on("guildDelete", function guildDelete() {
     request.post({
         headers: {
-            "Authorization": auth.dblToken,
+            "Authorization": u_wot_m8.dblToken,
         },
         url: `https://discordbots.org/api/bots/416274552126177282/stats`,
         json: true,
@@ -98,9 +98,9 @@ bot.on("guildDelete", function guildDelete() {
     });
 });
 bot.on('message', function (user, userID, channelID, message, event) {
-    
+
     // Our bot needs to know if it will execute a command
-    // It will listen for messages that will start with `,`
+    // It will listen for messages that will start with `}`
     function retrieveServerID() {
     	var retrieveServerID = bot.channels[channelID].guild_id;
 		//TO-DO: create function that returns serverID
@@ -119,7 +119,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
        args = args.splice(1);
         switch(cmd) {
             case 'help':
-                sendAMessage(channelID, '}help: displays this\n}curecancer cures cancer! (sometimes)\n}say makes the bot say something\n}revivechat might revive chat, not 100% sure\n}deadchat engraves the fact that the chat is dead and nothing will change that\n}cancercured will show you how many times cancer has been cured\n}whatsnew shows what is new about the bot\n}config will help you configure the bot example: `}config op-roles @role(s)`\n}touch is kinda kinky ex: `}touch _____`\n}die will kill whoever you ping ex: `}die @person`\n}succ is very gay ex: `}succ _____`\n}meme has multiple arguements! to use this command, you are probably going to have to ask someone who added a meme to the list. the first arguement is savememe ex: `}meme savememe (meme_name_substitute_spaces_with_dashes_or_underscores) (meme to store, to store pictures use the picture link)` arg 2: showmeme recalls meme ex: `}meme showmeme (meme_name_substitute_spaces_with_dashes_or_underscores)` Arg 3: listmeme lists all da memes ex: `}meme listmeme` NOTE: some memes are inside jokes and you will probably need to know about the server or what the meme is directed at.\n}invite will give you the link to invite the bot\n}anti-hack will activate my bot\'s anti hack measures NOTE: Don\'t spam it or i\'ll remove it!\n}emoji will change any sentence into emojis `a` ab` and `o` will have their red counterparts!\n}info gives info about bot\n}uptime shows uptime of my computer and bot')
+                sendAMessage(channelID, '}help: displays this\n}curecancer cures cancer! (sometimes)\n}say makes the bot say something\n}revivechat might revive chat, not 100% sure\n}deadchat engraves the fact that the chat is dead and nothing will change that\n}cancercured will show you how many times cancer has been cured\n}whatsnew shows what is new about the bot\n}config will help you configure the bot example: `}config op-roles @role(s)`\n}touch is kinda kinky ex: `}touch _____`\n}die will kill whoever you ping ex: `}die @person`\n}succ is very gay ex: `}succ _____`\n}meme has multiple arguements! to use this command, you are probably going to have to ask someone who added a meme to the list. the first arguement is savememe ex: `}meme savememe (meme_name_substitute_spaces_with_dashes_or_underscores) (meme to store, to store pictures use the picture link)` arg 2: showmeme recalls meme ex: `}meme showmeme (meme_name_substitute_spaces_with_dashes_or_underscores)` Arg 3: listmeme lists all da memes ex: `}meme listmeme` NOTE: some memes are inside jokes and you will probably need to know about the server or what the meme is directed at.\n}invite will give you the link to invite the bot\n}anti-hack will activate my bot\'s anti hack measures NOTE: Don\'t spam it or i\'ll remove it!\n}emoji will change any sentence into emojis `a` `ab` and `o` will have their red counterparts!\n}info gives info about bot\n}uptime shows uptime of my computer and bot\n}ping will return the bots ping\n}reportbug will report a bug\n}suggestcmd will suggest a command')
                 sendAMessage(channelID, 'To use These commands you **MUST** configure the bot to use them first:\n}del will delete the number of messages specified example: `}del 10`\n}setnick will change a persons nickname example: `}setnick @personguy nickname`\n}grantrole and }revokerole will give and remove someones role example: `}grantrole(revokerole) @person @role` **YOU MUST BE ABLE TO PING THE ROLE TO GRANT IT**\n}qotd is a question of the day command example: `}qotd #qotd_answer this is the qotd`\n}announcement is an announcement command example: `}announcement #announcements this is the announcement`\n}ban will ban someone (kinda obvious) ex: `}ban @person`\n}unban is }ban\'s counterpart ex: `}unban userID` *Note: You will need to have developer mode on in the settings to get the userID I recommend to Google search for a tutorial*\n}kick kicks someone from the server ex: `}kick @person`\n}mute }unmute }deafen and }undeafen are all commands to mute, unmute, deafen, and undeafen users in voice channels ex: `}mute|unmute|deafen|undeafen @person`')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1236,15 +1236,19 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'eval':
-                var evalCommand = message.split(' ').splice(1).join(' ').replace(/;/g, '\;');
-                sendAMessage(channelID, eval(evalCommand))
-                bot.getMember({
-                    serverID: retrieveServerID(),
-                    userID: userID
-                }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used eval!');
-                });
+                if (userID == creatorID) {
+                    var evalCommand = message.split(' ').splice(1).join(' ').replace(/;/g, '\;');
+                    sendAMessage(channelID, eval(evalCommand))
+                    bot.getMember({
+                        serverID: retrieveServerID(),
+                        userID: userID
+                    }, function(e, bb) {
+                        console.log(bb);
+                        console.log('Used eval!');
+                    });
+                }else {
+                    sendAMessage(channelID, 'Due to the nature of some people knowing how to do stuff with programming, the eval command is only available to the owner');
+                }
             break;
             case 'blowup':
                 sendAMessage(channelID, 'You went kaboom and died')
@@ -1275,6 +1279,54 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     console.log(bb);
                     console.log('Used ping!');
                 });
+            break;
+            case 'reportbug':
+                var reportBugCommand = message.split(' ').splice(1).join(' ');
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    sendAMessage('460517257853009920', '**__' + bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ')' + ' reported the bug: __**' + reportBugCommand);
+                    sendAMessage(channelID, 'The bug has been reported <@' + userID + '>!')
+                    console.log(bb);
+                    console.log('Used reportbug!');
+                });
+            break;
+            case 'suggestcmd':
+                var suggestCmdCommand = message.split(' ').splice(1).join(' ');
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    sendAMessage('460517321824403456', '**__' + bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ')' + ' suggested the command: __**' + suggestCmdCommand);
+                    sendAMessage(channelID, 'That has been suggested! Thank you <@' + userID + '>!')
+                    console.log(bb);
+                    console.log('Used suggestcmd!');
+                });
+            break;
+            case 'exec':
+                if (userID == creatorID) {
+                    var execCommand = message.split(' ').splice(1).join(' ');
+                    exec(execCommand, function (error, stdout, stderr) {
+                        if (error != undefined && stderr != undefined) {
+                            sendAMessage(channelID, 'OOF, i broke! ```' + error + '\n' + stderr + '\n' + stdout + '```');
+                        }else {
+                            sendAMessage(channelID, stdout);
+                        }
+                    });
+            
+                }else {
+                    sendAMessage(channelID, 'If this was open, I might as well buy a new computer as it is.')
+                    bot.getMember({
+                        serverID: retrieveServerID(),
+                        userID: userID
+                    }, function(e, bb) {
+                        console.log(bb);
+                        console.log('Tried to use exec!');
+                    });
+                }
+            break;
+            
         }
             }
         
@@ -1308,6 +1360,9 @@ bot.on('message', function (user, userID, channelID, message, event) {
      }
      if (message == '<@' + bot.id + '> am i the boss of you' && bot.users[userID].bot == false) {
          sendAMessage(channelID, '<@' + userID + '> No. You\'re not. bot.js my main script is the boss of me, really I\'m just a blank slate with out my main script.')
+     }
+     if (message ==  'fuck you <@' + bot.id + '>' && bot.users[userID].bot == false) {
+         sendAMessage(channelID, '<@' + userID + '> now that\'s not veryy nice')
      }
 });
     

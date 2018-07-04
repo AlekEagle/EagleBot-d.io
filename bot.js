@@ -1326,7 +1326,9 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     });
                 }
             break;
-            
+            case 'vote':
+                sendAMessage(channelID, 'Vote for me at: https://discordbots.org/bot/416274552126177282/vote because yeet.')
+            break;
         }
             }
         

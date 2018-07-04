@@ -119,7 +119,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
        args = args.splice(1);
         switch(cmd) {
             case 'help':
-                sendAMessage(channelID, '}help: displays this\n}curecancer cures cancer! (sometimes)\n}say makes the bot say something\n}revivechat might revive chat, not 100% sure\n}deadchat engraves the fact that the chat is dead and nothing will change that\n}cancercured will show you how many times cancer has been cured\n}whatsnew shows what is new about the bot\n}config will help you configure the bot example: `}config op-roles @role(s)`\n}touch is kinda kinky ex: `}touch _____`\n}die will kill whoever you ping ex: `}die @person`\n}succ is very gay ex: `}succ _____`\n}meme has multiple arguements! to use this command, you are probably going to have to ask someone who added a meme to the list. the first arguement is savememe ex: `}meme savememe (meme_name_substitute_spaces_with_dashes_or_underscores) (meme to store, to store pictures use the picture link)` arg 2: showmeme recalls meme ex: `}meme showmeme (meme_name_substitute_spaces_with_dashes_or_underscores)` Arg 3: listmeme lists all da memes ex: `}meme listmeme` NOTE: some memes are inside jokes and you will probably need to know about the server or what the meme is directed at.\n}invite will give you the link to invite the bot\n}anti-hack will activate my bot\'s anti hack measures NOTE: Don\'t spam it or i\'ll remove it!\n}emoji will change any sentence into emojis `a` `ab` and `o` will have their red counterparts!\n}info gives info about bot\n}uptime shows uptime of my computer and bot\n}ping will return the bots ping\n}reportbug will report a bug\n}suggestcmd will suggest a command')
+                sendAMessage(channelID, '}help: displays this\n}curecancer cures cancer! (sometimes)\n}say makes the bot say something\n}revivechat might revive chat, not 100% sure\n}deadchat engraves the fact that the chat is dead and nothing will change that\n}cancercured will show you how many times cancer has been cured\n}whatsnew shows what is new about the bot\n}config will help you configure the bot example: `}config op-roles @role(s)`\n}touch is kinda kinky ex: `}touch _____`\n}die will kill whoever you ping ex: `}die @person`\n}succ is very gay ex: `}succ _____`\n}meme has multiple arguements! to use this command, you are probably going to have to ask someone who added a meme to the list. the first arguement is savememe ex: `}meme savememe (meme_name_substitute_spaces_with_dashes_or_underscores) (meme to store, to store pictures use the picture link)` arg 2: showmeme recalls meme ex: `}meme showmeme (meme_name_substitute_spaces_with_dashes_or_underscores)` Arg 3: listmeme lists all da memes ex: `}meme listmeme` NOTE: some memes are inside jokes and you will probably need to know about the server or what the meme is directed at.\n}invite will give you the link to invite the bot\n}anti-hack will activate my bot\'s anti hack measures NOTE: Don\'t spam it or i\'ll remove it!\n}emoji will change any sentence into emojis `a` `ab` and `o` will have their red counterparts!\n}info gives info about bot\n}uptime shows uptime of my computer and bot\n}ping will return the bots ping\n}reportbug will report a bug\n}suggestcmd will suggest a command\n}blowup will blow you up\n}vote will allow you to vote for me')
                 sendAMessage(channelID, 'To use These commands you **MUST** configure the bot to use them first:\n}del will delete the number of messages specified example: `}del 10`\n}setnick will change a persons nickname example: `}setnick @personguy nickname`\n}grantrole and }revokerole will give and remove someones role example: `}grantrole(revokerole) @person @role` **YOU MUST BE ABLE TO PING THE ROLE TO GRANT IT**\n}qotd is a question of the day command example: `}qotd #qotd_answer this is the qotd`\n}announcement is an announcement command example: `}announcement #announcements this is the announcement`\n}ban will ban someone (kinda obvious) ex: `}ban @person`\n}unban is }ban\'s counterpart ex: `}unban userID` *Note: You will need to have developer mode on in the settings to get the userID I recommend to Google search for a tutorial*\n}kick kicks someone from the server ex: `}kick @person`\n}mute }unmute }deafen and }undeafen are all commands to mute, unmute, deafen, and undeafen users in voice channels ex: `}mute|unmute|deafen|undeafen @person`')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -668,7 +668,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 })
             break;
             case 'whatsnew':
-                sendAMessage(channelID, 'Bot version: `1.2.0 the "AlekEagle#6978 got to work" update`\nAdded `}uptime` and `}info`')
+                sendAMessage(channelID, 'Bot version: `1.2.0 the "AlekEagle#6978 got to work" update`\nAdded `}vote`, `}suggestcmd`, `}reportbug`, `}ping`, and `}blowup`.')
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1222,8 +1222,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'stapandreboot':
                 if (userID == creatorID) {
-                    sendAMessage(channelID, 'alright AlekEagle, if you insist. Goodbye ppl, for now at least.')
-                    setTimeout(process.exit(0), 5000)
+                    process.exit(0)
                 }else {
                     sendAMessage(channelID, 'You are **NOT** the creator of the bot!')
                     bot.getMember({
@@ -1328,7 +1327,15 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'vote':
                 sendAMessage(channelID, 'Vote for me at: https://discordbots.org/bot/416274552126177282/vote because yeet.')
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Used vote!');
+                });
             break;
+            
         }
             }
         

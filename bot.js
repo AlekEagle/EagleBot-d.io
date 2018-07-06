@@ -1,12 +1,12 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var u_wot_m8 = require('./.auth.json');
-var fs = require('fs');
-var sys = require('sys');
-var exec = require('child_process').exec;
+const Discord = require('discord.io');
+const logger = require('winston');
+const u_wot_m8 = require('./.auth.json');
+const fs = require('fs');
+const sys = require('sys');
+const exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
 const request = require('request');
-var pmx = require('pmx').init({
+const pmx = require('pmx').init({
     http : true,
     ignore_routes : [/socket\.io/, /notFound/],
     errors : true,
@@ -14,10 +14,10 @@ var pmx = require('pmx').init({
     network : true,
     ports : true
 });
-var prefix = '}'
-var timesCancerHasBeenCured = 0;
-var theServerID = '361281425284136962'
-var creatorID = '222882552472535041';
+const prefix = '}'
+const timesCancerHasBeenCured = 0;
+const creatorServerID = '456542159210807307';
+const creatorID = '222882552472535041';
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, {

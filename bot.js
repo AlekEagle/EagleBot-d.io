@@ -1243,7 +1243,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         throw err;
                     } catch (err) {
                         console.log(err);
-                        sendAMessage(channelID, 'OOF, I did done a goof! This is what happened: ' + err.stack);
+                        sendAMessage(channelID, 'OOF, I did done a goof! This is what happened: ```' + err.stack + '```');
                     }
                 }else {
                     sendAMessage(channelID, 'Due to the nature of some people knowing how to do stuff with programming, the eval command is only available to the owner');

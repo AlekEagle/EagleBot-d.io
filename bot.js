@@ -56,7 +56,7 @@ pmx.action('setplaying:text', function(param, reply) {
     console.log(param)
     bot.setPresence({
         game: {
-            name: param
+            name: param.first
         }
     });
     reply({success : true});
@@ -66,6 +66,13 @@ function sendAMessage(ch, message) {
         to: ch,
         message: message
     }, outputLog());
+}
+function playing(gameYeet) {
+    bot.setPresence({
+        game: {
+            name: gameYeet
+        }
+    });
 }
 function outputLog(err, res) {
     if (err != undefined) {

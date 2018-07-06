@@ -1416,6 +1416,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             });
                         break;
                     }
+                }else {
+                    sendAMessage(channelID, 'Only the owner can use this. Sorry.');
                 }
         }
     }

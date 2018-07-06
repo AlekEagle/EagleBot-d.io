@@ -1373,6 +1373,9 @@ bot.on('message', function (user, userID, channelID, message, event) {
      if (message ==  'fuck you <@' + bot.id + '>' && bot.users[userID].bot == false) {
          sendAMessage(channelID, '<@' + userID + '> now that\'s not very nice')
      }
+     if (message == '<@' + bot.id + '> haha, i took you offline for updates' && bot.users[userID].bot == false && userID == creatorID) {
+        sendAMessage(channelID, '<@' + userID + '> Umm... I don\'t think you did. Please make sure your head is on right and try again later.')
+    }
 });
     
     

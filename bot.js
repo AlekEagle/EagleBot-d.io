@@ -1375,6 +1375,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
      }
      if (message == '<@' + bot.id + '> haha, i took you offline for updates' && bot.users[userID].bot == false && userID == creatorID) {
         sendAMessage(channelID, '<@' + userID + '> Umm... I don\'t think you did. Please make sure your head is on right and try again later.')
+    }else {
+        if (message == '<@' + bot.id + '> haha, i took you offline for updates' && bot.users[userID].bot == false && userID != creatorID) {
+            sendAMessage(channelID, '<@' + userID + '> You don\'t even have permissions to take me offline, but nice try anyway.')
+        }
     }
 });
     

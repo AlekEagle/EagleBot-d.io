@@ -1016,9 +1016,9 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     var execCommand = message.split(' ').splice(1).join(' ');
                     exec(execCommand, function (error, stdout, stderr) {
                         if (error != undefined && stderr != undefined) {
-                            sendAMessage(channelID, 'OOF, i broke! ```' + error + '\n' + stderr + '\n' + stdout + '```');
+                            sendAMessage(channelID, 'OOF, i broke! ```' + error + '\n' + stdout + '```');
                         }else {
-                            sendAMessage(channelID, stdout);
+                            sendAMessage(channelID, '```' + stdout + '```');
                         }
                     });
             
@@ -1079,7 +1079,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
          sendAMessage(channelID, '<@' + userID + '> No. You\'re not. bot.js my main script is the boss of me, really I\'m just a blank slate with out my main script.')
      }
      if (message ==  'fuck you <@' + bot.id + '>' && bot.users[userID].bot == false) {
-         sendAMessage(channelID, '<@' + userID + '> now that\'s not veryy nice')
+         sendAMessage(channelID, '<@' + userID + '> now that\'s not very nice')
      }
 });
     

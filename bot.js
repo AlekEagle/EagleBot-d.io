@@ -1236,17 +1236,24 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'eval':
                 if (userID == creatorID) {
-                    var evalCommand = message.split(' ').splice(1).join(' ').replace(/;/g, '\;');
-                    sendAMessage(channelID, eval(evalCommand))
+                    try {
+                        var evalCommand = message.split(' ').splice(1).join(' ').replace(/;/g, '\;');
+                        sendAMessage(channelID, eval(evalCommand));
+                        var err = new Error('Whoops');
+                        throw err;
+                    } catch (err) {
+                        console.log(err);
+                        sendAMessage(channelID, 'OOF, I did done a goof! This is what happened: ' + err.stack);
+                    }
+                }else {
+                    sendAMessage(channelID, 'Due to the nature of some people knowing how to do stuff with programming, the eval command is only available to the owner');
                     bot.getMember({
                         serverID: retrieveServerID(),
                         userID: userID
                     }, function(e, bb) {
                         console.log(bb);
-                        console.log('Used eval!');
+                        console.log('Tried to use eval!');
                     });
-                }else {
-                    sendAMessage(channelID, 'Due to the nature of some people knowing how to do stuff with programming, the eval command is only available to the owner');
                 }
             break;
             case 'blowup':

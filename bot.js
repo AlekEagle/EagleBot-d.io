@@ -1310,7 +1310,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         if (error != undefined && stderr != undefined) {
                             sendAMessage(channelID, 'OOF, i broke! ```' + error + '\n' + stdout + '```');
                         }else {
-                            sendAMessage(channelID, '```' + stdout + '```');
+                            sendAMessage(channelID, stdout);
                         }
                     });
             

@@ -1353,7 +1353,70 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     console.log('Tried to get the token but failed because it\'s not it!');
                 });
             break;
-            
+            case 'todo':
+                if (userID == creatorID) {
+                    var todoCommand = message.split(' ').splice(1);
+                    switch(todoCommand[0]) {
+                        case 'new':
+                            if (todoCommand[1] != undefined) {
+                                var task = message.split(' ').splice(3).join(' ');
+                                fs.open('./ae_todo/' + todoCommand[1] + '.task', 'wx', (err, fd) => {
+                                    if (err) {
+                                        if (err.code === 'EEXIST') {
+                                            sendAMessage(channelID, 'A task with that name already exists!')
+                                        }else {
+                                            sendAMessage(channelID, 'Well, an error occurred but it\'s not an error code I was expecting. Here is the error code: `' + err.code + '`');
+                                        }
+                                    }else {
+                                        sendAMessage(channelID, 'Alright, that will be saved!')
+                                        fs.writeFile('./ae_todo/' + todoCommand[1] + '.task', task, (err) => {
+                                            if (err) {
+                                                sendAMessage(channelID, 'Ehrmm... scratch that, an error occurred: `' + err.code + '`');
+                                            } 
+                                        });
+                                    }
+                                });
+                            }else {
+                                sendAMessage(channelID, 'Really AlekEagle? I thought you knew how to use your own bot.');
+                            }
+                        break;
+                        case 'show':
+                            if (todoCommand[1] != undefined) {
+                                fs.readFile('./ae_todo/' + todoCommand[1] + '.task', (err, data) => {
+                                    if (err) {
+                                        sendAMessage(channelID, 'Welp, an error occured: `' + err.code + '`');
+                                    }else {
+                                        sendAMessage(channelID, 'Task requested: \n`' + data.toString('utf-8') + '`');
+                                    }
+                                })
+                            }else {
+                                sendAMessage(channelID, 'Really AlekEagle? I thought you knew how to use your own bot.');
+                            }
+                        break;
+                        case 'complete':
+                            if (todoCommand[1] != undefined) {
+                                fs.unlink('./ae_todo/' + todoCommand[1] + '.task', (err) => {
+                                    if (err) {
+                                        sendAMessage(channelID, 'Well, I can\'t really do that since an error occurred: `' + err.code + '`')
+                                    }else {
+                                        sendAMessage(channelID, 'The task has been completed, it will no longer show in the "To Be Completed" section.')
+                                    }
+                                })
+                            }else {
+                                sendAMessage(channelID, 'Really AlekEagle? I thought you knew how to use your own bot.');
+                            }
+                        break;
+                        case 'listall':
+                            fs.readdir('./ae_todo/', (err, files) => {
+                                if (files.length == 0) {
+                                    sendAMessage(channelID, 'You have no acitve tasks at the moment.');
+                                }else {
+                                    sendAMessage(channelID, 'Your active tasks: ```' + files.join(', ').replace(/.task/g, ''))
+                                }
+                            });
+                        break;
+                    }
+                }
         }
     }
         

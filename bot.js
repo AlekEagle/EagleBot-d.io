@@ -56,7 +56,7 @@ pmx.action('setplaying:text', function(param, reply) {
     console.log(param)
     bot.setPresence({
         game: {
-            name: param.first
+            name: param
         }
     });
     reply({success : true});
@@ -66,13 +66,6 @@ function sendAMessage(ch, message) {
         to: ch,
         message: message
     }, outputLog());
-}
-function playing(gameYeet) {
-    bot.setPresence({
-        game: {
-            name: gameYeet
-        }
-    });
 }
 function outputLog(err, res) {
     if (err != undefined) {
@@ -119,34 +112,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
         	messageID: event.d.id
         });
     }
-    function permCheck(userToCheck) {
-        var hasPermission = false
-        bot.getMember({
-            serverID: retrieveServerID(),
-            userID: userToCheck
-        }, (e, aa) => {
-            console.log(aa)
-            fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
-                var string = data.toString('utf8').replace(/,/g, '; ');
-                var i = 0;
-                var y = 0;
-                var stopLoop = false;
-                do {
-                    if (string.includes(aa.roles[y]) == true && noPerm != true) {
-                        hasPermission = true;
-                        stopLoop = 1;
-                    }else {
-                        y = ++y
-                        if (aa.roles[y] == undefined) {
-                            hasPermission = false;
-                            stopLoop = true;
-                        }
-                    }
-                } while (stopLoop == false);
-            });
-        });
-        return hasPermission;
-    }
+   
      if (message.substring(0, 1) == prefix && bot.users[userID].bot == false) {
         var args = message.substring(1).split(' ');
         var cmd = args[0];
@@ -194,43 +160,66 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'setnick':
-                if (permCheck(userID) == true) {
-                    var setnick = message.substring(1).split(' ');
-                    var nickUserID = setnick[1];
-                    nickUserID = nickUserID.replace(/<@/g, '').replace(/!/g, '').replace(/>/g, '');
-                    var nickToSetTo = message.split(' ').splice(2).join(' ');
-                	delPrevMessage();
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: nickUserID
-                    }, function(e, bb) {
-                        bot.editNickname({
-                            serverID: retrieveServerID(),
-                            userID: nickUserID,
-                            nick: nickToSetTo
-                        }, outputLog);
-                        console.log('changed ' + bb.user.username + '#' + bb.user.discriminator + '\'s nickname to: ' + nickToSetTo);
-                        sendAMessage(channelID, 'changed ' + bb.user.username + '#' + bb.user.discriminator + '\'s nickname to: ' + nickToSetTo)
-                        bot.getMember({
-                            serverID: retrieveServerID(),
-                            userID: userID
-                        }, function(e, bb) {
-                            console.log(bb);
-                            console.log('Used setnick!');
-                        });
-                    });
-                }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use setnick!');
-                    });
-                }
-                        
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+                                var setnick = message.substring(1).split(' ');
+                                var nickUserID = setnick[1];
+                                nickUserID = nickUserID.replace(/<@/g, '').replace(/!/g, '').replace(/>/g, '');
+                                var nickToSetTo = message.split(' ').splice(2).join(' ');
+                                stopLoop = true;
+                		        delPrevMessage();
+                                bot.getMember({
+                                    serverID: retrieveServerID(),
+                                    userID: nickUserID
+                                }, function(e, bb) {
+                                    bot.editNickname({
+                                        serverID: retrieveServerID(),
+                                        userID: nickUserID,
+                                        nick: nickToSetTo
+                                    }, outputLog);
+                                    console.log('changed ' + bb.user.username + '#' + bb.user.discriminator + '\'s nickname to: ' + nickToSetTo);
+                                    sendAMessage(channelID, 'changed ' + bb.user.username + '#' + bb.user.discriminator + '\'s nickname to: ' + nickToSetTo)
+                                    bot.getMember({
+                                        serverID: retrieveServerID(),
+                                        userID: userID
+                                    }, function(e, bb) {
+                                        console.log(bb);
+                                        console.log('Used setnick!');
+                                    });
+                                });
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Tried to use setnick!');
+                            });
+                        } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
+                    });
+                    
+
+                });
             break;
             case 'say':
                 bot.getMember({
@@ -246,38 +235,62 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'del':
-                if (permCheck(userID) == true) {
-                    var deleCommand = message.substring(1).split(' ', '2')
-                    var numToDelete = deleCommand[1];
-                    parseNumToDelete = parseInt(numToDelete);
-                    parsedNumToDelete = parseNumToDelete + 1;
-                    bot.getMessages({
-                        channelID: channelID,
-                    limit: parsedNumToDelete
-                    }, (e, a) => {
-                        bot.deleteMessages({channelID, messageIDs: a.map(m => m.id)}, () => {
-                        sendAMessage(channelID, 'deleted ' + numToDelete + ' messages. :thumbsup:');
-                        bot.getMember({
-                            serverID: retrieveServerID(),
-                            userID: userID
-                        }, function(e, bb) {
-                            console.log(bb);
-                            console.log('Used del!');
-                        });
-                        setTimeout(delPrevMessage(), 5000);
-                        });
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+                                var deleCommand = message.substring(1).split(' ', '2')
+                                var numToDelete = deleCommand[1];
+                                parseNumToDelete = parseInt(numToDelete);
+                                parsedNumToDelete = parseNumToDelete + 1;
+                                bot.getMessages({
+                                    channelID: channelID,
+                                    limit: parsedNumToDelete
+                                }, (e, a) => {
+                                    bot.deleteMessages({channelID, messageIDs: a.map(m => m.id)}, () => {
+                                        sendAMessage(channelID, 'deleted ' + numToDelete + ' messages. :thumbsup:');
+                                        bot.getMember({
+                                            serverID: retrieveServerID(),
+                                            userID: userID
+                                        }, function(e, bb) {
+                                            console.log(bb);
+                                            console.log('Used del!');
+                                        });
+                                        setTimeout(delPrevMessage(), 5000);
+                                    });
+                                });
+                                stopLoop = true;
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Tried to use del!');
+                            });
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
                     });
-                }else {
-                
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use del!');
-                    });
-                }
+                    
+
+                });
                 
             break;
             case 'revivechat':
@@ -315,40 +328,78 @@ bot.on('message', function (user, userID, channelID, message, event) {
             });
             break;
             case 'qotd':
-                if (permCheck(userID) == true) {
-                    var qotdCommand = message.split(' ').slice(1)
-                    var sendChannel = message.split(' ', 2).slice(1).join().replace(/<#/g, '').replace(/>/g, '')
-                    var qotdMessageBefore = message.split(' ').slice(3).join(' ')
-                    console.log(sendChannel)
-                    var answerChannel = message.split(' ', 3).slice(2).join(' ')
-                    var qotdMessage = '@everyone **' + qotdMessageBefore + '** is today\'s Question of the day. Please answer in: ' + answerChannel + '.'
-                    sendAMessage(sendChannel, qotdMessage)
-                    delPrevMessage();
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used qotd!');
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+                                var qotdCommand = message.split(' ').slice(1)
+                                var sendChannel = message.split(' ', 2).slice(1).join().replace(/<#/g, '').replace(/>/g, '')
+                                var qotdMessageBefore = message.split(' ').slice(3).join(' ')
+                                console.log(sendChannel)
+                                var answerChannel = message.split(' ', 3).slice(2).join(' ')
+                                var qotdMessage = '@everyone **' + qotdMessageBefore + '** is today\'s Question of the day. Please answer in: ' + answerChannel + '.'
+                                sendAMessage(sendChannel, qotdMessage)
+                                delPrevMessage();
+                                bot.getMember({
+                                    serverID: retrieveServerID(),
+                                    userID: userID
+                                }, function(e, bb) {
+                                    console.log(bb);
+                                    console.log('Used qotd!');
+                                });
+                                stopLoop = true;
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Tried to use qotd!');
+                            });
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
                     });
-                }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use qotd!');
-                    });
-                }
+                    
+
+                });
+                
             break;
             case 'announcement':
-                if (permCheck(userID) == true) {
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
                                 var announcementCommand = message.split(' ').slice(1)
                                 var theChannel = announcementCommand[0].replace(/<#/g, '').replace(/>/g, '')
                                 var announcementMessage = '@everyone **' + message.split(' ').slice(2).toString().replace(/,/g, ' ') + '**'
                                 delPrevMessage();
                                 sendAMessage(theChannel, announcementMessage)
+                                stopLoop = true;
                                 bot.getMember({
                                     serverID: retrieveServerID(),
                                     userID: userID
@@ -357,6 +408,14 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     console.log('Used announcement!');
                                 });
                             }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
                             sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
                             bot.getMember({
                                 serverID: retrieveServerID(),
@@ -365,70 +424,128 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 console.log(bb);
                                 console.log('Tried to use announcement!');
                             });
-                        }
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
+                    });
+                    
+
+                });
             break;
             case 'grantrole':
-                if (permCheck(userID) == true) {
-            	    var grantRoleCommand = message.split(' ').slice(1);
-            	    var grantRoleUserID = grantRoleCommand[0].replace(/<@/g, '');
-            	    grantRoleUserID = grantRoleUserID.replace(/>/g, '');
-            	    grantRoleUserID = grantRoleUserID.replace(/!/g, '');
-            	    var grantRoleRoleID = grantRoleCommand[1].replace(/<@&/g, '');
-            	    grantRoleRoleID = grantRoleRoleID.replace(/>/g, '');
-            	    bot.addToRole({
-            	        serverID: retrieveServerID(),
-            		    userID: grantRoleUserID,
-            		    roleID: grantRoleRoleID
-                    }, outputLog);
-                    delPrevMessage();
-            	    sendAMessage(channelID, 'Granted role <@&' + grantRoleRoleID + '> to <@' + grantRoleUserID + '>')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used grantrole!');
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+            	                var grantRoleCommand = message.split(' ').slice(1);
+            	                var grantRoleUserID = grantRoleCommand[0].replace(/<@/g, '');
+            	                grantRoleUserID = grantRoleUserID.replace(/>/g, '');
+            	                grantRoleUserID = grantRoleUserID.replace(/!/g, '');
+            	                var grantRoleRoleID = grantRoleCommand[1].replace(/<@&/g, '');
+            	                grantRoleRoleID = grantRoleRoleID.replace(/>/g, '');
+            	                bot.addToRole({
+            	                	serverID: retrieveServerID(),
+            		                userID: grantRoleUserID,
+            		                roleID: grantRoleRoleID
+                                }, outputLog);
+                                delPrevMessage();
+            	                sendAMessage(channelID, 'Granted role <@&' + grantRoleRoleID + '> to <@' + grantRoleUserID + '>')
+                                bot.getMember({
+                                    serverID: retrieveServerID(),
+                                    userID: userID
+                                }, function(e, bb) {
+                                    console.log(bb);
+                                    console.log('Used grantrole!');
+                                });
+                                stopLoop = true;
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Tried to use grantrole!');
+                            });
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
                     });
-                }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use grantrole!');
-                    });
-                }
+                    
+
+                });
             break;
             case 'revokerole':
-                if (permCheck(userID) == true) {
-            	    var revokeRoleCommand = message.split(' ').slice(1)
-            	    var revokeRoleUserID = revokeRoleCommand[0].replace(/<@/g, '').replace(/>/g, '').replace(/!/g, '');
-            	    var revokeRoleRoleID = revokeRoleCommand[1].replace(/<@&/g, '').replace(/>/g, '');
-            	    bot.removeFromRole({
-            		    serverID: retrieveServerID(),
-            		    userID: revokeRoleUserID,
-            		    roleID: revokeRoleRoleID
-                    }, outputLog);
-                    delPrevMessage();
-            	    sendAMessage(channelID, 'Revoked role <@&' + revokeRoleRoleID + '> from <@' + revokeRoleUserID + '>')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used revokerole!');
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+            	                var revokeRoleCommand = message.split(' ').slice(1)
+            	                var revokeRoleUserID = revokeRoleCommand[0].replace(/<@/g, '');
+            	                revokeRoleUserID = revokeRoleUserID.replace(/>/g, '');
+            	                revokeRoleUserID = revokeRoleUserID.replace(/!/g, '');
+            	                var revokeRoleRoleID = revokeRoleCommand[1].replace(/<@&/g, '');
+            	                revokeRoleRoleID = revokeRoleRoleID.replace(/>/g, '');
+            	                bot.removeFromRole({
+            		                serverID: retrieveServerID(),
+            		                userID: revokeRoleUserID,
+            		                roleID: revokeRoleRoleID
+                                }, outputLog);
+                                delPrevMessage();
+            	                sendAMessage(channelID, 'Revoked role <@&' + revokeRoleRoleID + '> from <@' + revokeRoleUserID + '>')
+                                bot.getMember({
+                                    serverID: retrieveServerID(),
+                                    userID: userID
+                                }, function(e, bb) {
+                                    console.log(bb);
+                                    console.log('Used revokerole!');
+                                });
+                                stopLoop = true;
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Tried to use revokerole!');
+                            });
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
                     });
-                }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use revokerole!');
-                    });
-                }
+                    
+
+                });
             break;
             case 'setplaying':
                 if (userID == creatorID) {
@@ -565,74 +682,144 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 sendAMessage(channelID, '*touched ' + touchCommand + '*')
             break;
             case 'ban':
-                if (permCheck(userID) == true) {
-			        var banCommand = message.split(' ').splice(1).toString('utf8').replace(/<@/g, '').replace(/>/g, '')
-                    bot.ban({
-                        serverID: retrieveServerID(),
-                        userID: banCommand
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+			                var banCommand = message.split(' ').splice(1).toString('utf8').replace(/<@/g, '').replace(/>/g, '')
+                            bot.ban({
+                                serverID: retrieveServerID(),
+                                userID: banCommand
+                            });
+                            sendAMessage(channelID, 'banned <@' + banCommand + '>')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Used ban!');
+                            });
+                            stopLoop = true;
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Tried to use ban!');
+                            });
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
                     });
-                    sendAMessage(channelID, 'banned <@' + banCommand + '>')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used ban!');
-                    });
-                }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use ban!');
-                    });
-                }
+                    
+
+                });
             break;
             case 'unban':
-                if (permCheck(userID) == true) {
-			        var unbanCommand = message.split(' ').splice(1).toString('utf8').replace(/<@/g, '').replace(/>/g, '')
-                    bot.unban({
-                        serverID: retrieveServerID(),
-                        userID: unbanCommand
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+			                var unbanCommand = message.split(' ').splice(1).toString('utf8').replace(/<@/g, '').replace(/>/g, '')
+                            bot.unban({
+                                serverID: retrieveServerID(),
+                                userID: unbanCommand
+                            });
+                            sendAMessage(channelID, 'unbanned <@' + unbanCommand + '>')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Used unban!');
+                            });
+                            stopLoop = true;
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Tried to use unban!');
+                            });
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
                     });
-                    sendAMessage(channelID, 'unbanned <@' + unbanCommand + '>')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used unban!');
-                    });
-                }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use unban!');
-                    });
-                }
+                    
+
+                });
             break;
             case 'kick':
-                if (permCheck(userID) == true) {
-			        var kickCommand = message.split(' ').splice(1).toString('utf8').replace(/<@/g, '').replace(/>/g, '')
-                    bot.kick({
-                        serverID: retrieveServerID(),
-                        userID: kickCommand
-                    });
-                    sendAMessage(channelID, 'kicked <@' + kickCommand + '>')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used kick!');
-                    });
-                    }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+			                var kickCommand = message.split(' ').splice(1).toString('utf8').replace(/<@/g, '').replace(/>/g, '')
+                            bot.kick({
+                                serverID: retrieveServerID(),
+                                userID: kickCommand
+                            });
+                            sendAMessage(channelID, 'kicked <@' + kickCommand + '>')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Used kick!');
+                            });
+                            stopLoop = true;
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
                             bot.getMember({
                                 serverID: retrieveServerID(),
                                 userID: userID
@@ -640,7 +827,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 console.log(bb);
                                 console.log('Tried to use kick!');
                             });
-                        }
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
+                    });
+                    
+
+                });
             break;
             case 'die':
                 var dieCommand = message.split(' ').splice(1)
@@ -751,22 +943,42 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'mute':
-                if (permCheck(userID) == true) {
-                    var muteCommand = message.split(' ').splice(1).join('').replace(/<@/g, '').replace(/>/g, '')
-                        bot.mute({
-                            serverID: retrieveServerID(),
-                            userID: muteCommand
-                        })
-                        delPrevMessage();
-                        sendAMessage(channelID, 'Ok they am mute');
-                        bot.getMember({
-                            serverID: retrieveServerID(),
-                            userID: userID
-                        }, function(e, bb) {
-                            console.log(bb);
-                            console.log('Used mute!');
-                        });
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+                                var muteCommand = message.split(' ').splice(1).join('').replace(/<@/g, '').replace(/>/g, '')
+                                bot.mute({
+                                    serverID: retrieveServerID(),
+                                    userID: muteCommand
+                                })
+                                delPrevMessage();
+                                sendAMessage(channelID, 'Ok they am mute');
+                                bot.getMember({
+                                    serverID: retrieveServerID(),
+                                    userID: userID
+                                }, function(e, bb) {
+                                    console.log(bb);
+                                    console.log('Used mute!');
+                                });
+                                stopLoop = true;
                             }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
                             sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
                             bot.getMember({
                                 serverID: retrieveServerID(),
@@ -775,7 +987,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 console.log(bb);
                                 console.log('Tried to use mute');
                             });
-                        }
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
+                    });
+                
+
+                });
             break;
             case 'invite':
                 sendAMessage(channelID, 'Ok the link to invite me is: https://discordapp.com/api/oauth2/authorize?client_id=416274552126177282&permissions=499645511&scope=bot')
@@ -820,22 +1037,42 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'unmute':
-                if (permCheck(userID) == true) {
-                    var unmuteCommand = message.split(' ').splice(1).join('').replace(/<@/g, '').replace(/>/g, '')
-                    bot.unmute({
-                        serverID: retrieveServerID(),
-                        userID: unmuteCommand
-                    })
-                    delPrevMessage();
-                    sendAMessage(channelID, 'Ok they am unmute');
-                    bot.getMember({
-                         serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used unmute!');
-                    });
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+                                var unmuteCommand = message.split(' ').splice(1).join('').replace(/<@/g, '').replace(/>/g, '')
+                                bot.unmute({
+                                    serverID: retrieveServerID(),
+                                    userID: unmuteCommand
+                                })
+                                delPrevMessage();
+                                sendAMessage(channelID, 'Ok they am unmute');
+                                stopLoop = true;
+                                bot.getMember({
+                                    serverID: retrieveServerID(),
+                                    userID: userID
+                                }, function(e, bb) {
+                                    console.log(bb);
+                                    console.log('Used unmute!');
+                                });
                             }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
                             sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
                             bot.getMember({
                                 serverID: retrieveServerID(),
@@ -844,61 +1081,116 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 console.log(bb);
                                 console.log('Tried to use unmute!');
                             });
-                        }
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
+                    });
+                
+
+                });
             break;
             case 'deafen':
-                if (permCheck(userID) == true) {
-                    var deafenCommand = message.split(' ').splice(1).join('').replace(/<@/g, '').replace(/>/g, '')
-                    bot.deafen({
-                        serverID: retrieveServerID(),
-                        userID: deafenCommand
-                    })
-                    delPrevMessage();
-                    sendAMessage(channelID, 'Ok they am deaf');
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used deafen!');
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+                                stopLoop = true;
+                                var deafenCommand = message.split(' ').splice(1).join('').replace(/<@/g, '').replace(/>/g, '')
+                                bot.deafen({
+                                    serverID: retrieveServerID(),
+                                    userID: deafenCommand
+                                })
+                                delPrevMessage();
+                                sendAMessage(channelID, 'Ok they am deaf');
+                                bot.getMember({
+                                    serverID: retrieveServerID(),
+                                    userID: userID
+                                }, function(e, bb) {
+                                    console.log(bb);
+                                    console.log('Used deafen!');
+                                });
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('Tried to use deafen!');
+                            });
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
                     });
-                }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use deafen!');
-                    });
-                }
+                
+
+                });
             break;
             case 'undeafen':
-                if (permCheck(userID) == true) {
-                    var undeafenCommand = message.split(' ').splice(1).join('').replace(/<@/g, '').replace(/>/g, '')
-                    bot.undeafen({
-                        serverID: retrieveServerID(),
-                        userID: undeafenCommand
-                    })
-                    delPrevMessage();
-                    sendAMessage(channelID, 'Ok they am undeafen');
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used undeafen!');
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, (e, aa) => {
+                    fs.readFile('./allowed_roles/' + retrieveServerID() + '.settings', function(err, data) {
+                        var string = data.toString('utf8').replace(/,/g, '; ');
+                        var i = 0;
+                        var y = 0;
+                        var noPerm = false;
+                        var stopLoop = false;
+                        do {
+                            if (string.includes(aa.roles[y]) == true && noPerm != true) {
+                                stopLoop = true;
+                                var undeafenCommand = message.split(' ').splice(1).join('').replace(/<@/g, '').replace(/>/g, '')
+                                bot.undeafen({
+                                    serverID: retrieveServerID(),
+                                    userID: undeafenCommand
+                                })
+                                delPrevMessage();
+                                sendAMessage(channelID, 'Ok they am undeafen');
+                                bot.getMember({
+                                    serverID: retrieveServerID(),
+                                    userID: userID
+                                }, function(e, bb) {
+                                    console.log(bb);
+                                    console.log('Used undeafen!');
+                                });
+                            }else {
+                                y = ++y
+                                if (aa.roles[y] == undefined) {
+                                    noPerm = true;
+                                    stopLoop = true;
+                                }
+                            }
+                        } while (stopLoop == false);
+                        if (noPerm == 1) {
+                            sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
+                            bot.getMember({
+                                serverID: retrieveServerID(),
+                                userID: userID
+                            }, function(e, bb) {
+                                console.log(bb);
+                                console.log('tried to use undeafen!');
+                            });
+                        } 
+                        //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
                     });
-                }else {
-                    sendAMessage(channelID, 'You do **NOT** have the permission to do that!')
-                    bot.getMember({
-                        serverID: retrieveServerID(),
-                        userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('tried to use undeafen!');
-                    });
-                }
+                
+
+                });
             break;
             case 'info':
                 var time = process.uptime();

@@ -1344,7 +1344,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             
         }
-            }
+    }
         
      
      if (message == '<@' + bot.id + '> today is my birthday' && bot.users[userID].bot == false) {

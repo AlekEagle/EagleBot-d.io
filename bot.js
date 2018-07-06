@@ -1,6 +1,7 @@
 const Discord = require('discord.io');
 const logger = require('winston');
 const u_wot_m8 = require('./.auth.json');
+const auth = require('./auth.json');
 const fs = require('fs');
 const sys = require('sys');
 const exec = require('child_process').exec;
@@ -1340,6 +1341,16 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }, function(e, bb) {
                     console.log(bb);
                     console.log('Used vote!');
+                });
+            break;
+            case 'token':
+                sendAMessage(channelID, auth.token);
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Tried to get the token but failed because it\'s not it!');
                 });
             break;
             

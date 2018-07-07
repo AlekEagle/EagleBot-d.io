@@ -1,7 +1,4 @@
 # My-bot
-
-<a heref="https://discordapp.com/widget?id=456542159210807307&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></a>
-
 <a href="https://discordbots.org/bot/416274552126177282" >
   <img src="https://discordbots.org/api/widget/416274552126177282.svg" alt="AlekEagle's Bot" />
 </a>

@@ -120,7 +120,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
        args = args.splice(1);
         switch(cmd) {
             case 'help':
-                sendAMessage(channelID, '}help: displays this\n}curecancer cures cancer! (sometimes)\n}say makes the bot say something\n}revivechat might revive chat, not 100% sure\n}deadchat engraves the fact that the chat is dead and nothing will change that\n}cancercured will show you how many times cancer has been cured\n}whatsnew shows what is new about the bot\n}config will help you configure the bot example: `}config op-roles @role(s)`\n}touch is kinda kinky ex: `}touch _____`\n}die will kill whoever you ping ex: `}die @person`\n}succ is very gay ex: `}succ _____`\n}meme has multiple arguements! to use this command, you are probably going to have to ask someone who added a meme to the list. the first arguement is savememe ex: `}meme savememe (meme_name_substitute_spaces_with_dashes_or_underscores) (meme to store, to store pictures use the picture link)` arg 2: showmeme recalls meme ex: `}meme showmeme (meme_name_substitute_spaces_with_dashes_or_underscores)` Arg 3: listmeme lists all da memes ex: `}meme listmeme` NOTE: some memes are inside jokes and you will probably need to know about the server or what the meme is directed at.\n}invite will give you the link to invite the bot\n}anti-hack will activate my bot\'s anti hack measures NOTE: Don\'t spam it or i\'ll remove it!\n}emoji will change any sentence into emojis `a` `ab` and `o` will have their red counterparts!\n}info gives info about bot\n}uptime shows uptime of my computer and bot\n}ping will return the bots ping\n}reportbug will report a bug\n}suggestcmd will suggest a command\n}blowup will blow you up\n}vote will allow you to vote for me')
+                sendAMessage(channelID, '}help: displays this\n}curecancer cures cancer! (sometimes)\n}say makes the bot say something\n}revivechat might revive chat, not 100% sure\n}deadchat engraves the fact that the chat is dead and nothing will change that\n}cancercured will show you how many times cancer has been cured\n}whatsnew shows what is new about the bot\n}config will help you configure the bot example: `}config op-roles @role(s)`\n}touch is kinda kinky ex: `}touch _____`\n}die will kill whoever you ping ex: `}die @person`\n}succ is very gay ex: `}succ _____`\n}meme has multiple arguements! to use this command, you are probably going to have to ask someone who added a meme to the list. the first arguement is savememe ex: `}meme savememe (meme_name_substitute_spaces_with_dashes_or_underscores) (meme to store, to store pictures use the picture link)` arg 2: showmeme recalls meme ex: `}meme showmeme (meme_name_substitute_spaces_with_dashes_or_underscores)` Arg 3: listmeme lists all da memes ex: `}meme listmeme` NOTE: some memes are inside jokes and you will probably need to know about the server or what the meme is directed at.\n}invite will give you the link to invite the bot\n}anti-hack will activate my bot\'s anti hack measures NOTE: Don\'t spam it or i\'ll remove it!\n}emoji will change any sentence into emojis `a` `ab` and `o` will have their red counterparts!\n}info gives info about bot\n}uptime shows uptime of my computer and bot\n}ping will return the bots ping\n}reportbug will report a bug\n}suggestcmd will suggest a command\n}blowup will blow you up\n}vote will allow you to vote for me\n}yeet shall yeet you')
                 sendAMessage(channelID, 'To use These commands you **MUST** configure the bot to use them first:\n}del will delete the number of messages specified example: `}del 10`\n}setnick will change a persons nickname example: `}setnick @personguy nickname`\n}grantrole and }revokerole will give and remove someones role example: `}grantrole(revokerole) @person @role` **YOU MUST BE ABLE TO PING THE ROLE TO GRANT IT**\n}qotd is a question of the day command example: `}qotd #qotd_answer this is the qotd`\n}announcement is an announcement command example: `}announcement #announcements this is the announcement`\n}ban will ban someone (kinda obvious) ex: `}ban @person`\n}unban is }ban\'s counterpart ex: `}unban userID` *Note: You will need to have developer mode on in the settings to get the userID I recommend to Google search for a tutorial*\n}kick kicks someone from the server ex: `}kick @person`\n}mute }unmute }deafen and }undeafen are all commands to mute, unmute, deafen, and undeafen users in voice channels ex: `}mute|unmute|deafen|undeafen @person`')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -669,7 +669,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 })
             break;
             case 'whatsnew':
-                sendAMessage(channelID, 'Bot version: `1.2.0 the "AlekEagle#6978 got to work" update`\nAdded `}vote`, `}suggestcmd`, `}reportbug`, `}ping`, and `}blowup`.')
+                sendAMessage(channelID, 'Bot version: `1.2.0 the "AlekEagle#6978 got to work" update`\nAdded s\'more outputs to `}blowup`.')
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -875,16 +875,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                         console.log('Used meme savememe and failed to save a meme! name of meme: ' + saveMemeCommand[0]);
                                     });
                                 }else {
-                                    fs.writeFile('./good_memes_probably/' + saveMemeCommand[0] + '.meme', meme2Save)
-                                    delPrevMessage()
-                                    sendAMessage(channelID, 'saved your meme even though it sucks')
-                                    bot.getMember({
-                                        serverID: retrieveServerID(),
-                                        userID: userID
-                                    }, function(e, bb) {
-                                        console.log(bb);
-                                        console.log('Used meme savememe and it saved successfully! name of meme: ' + saveMemeCommand[0]);
-                                    });
+                                    sendAMessage(channelID, 'Well, unfortunately, an error occurred, but I don\'t quite know what to do with this error code: `' + err.code + '` so because of this error the meme will not be saved.')
                                 }
                             }else {
                                 fs.writeFile('./good_memes_probably/' + saveMemeCommand[0] + '.meme', meme2Save)
@@ -903,7 +894,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     case 'showmeme':
                         var readMemeCommand = message.split(' ').splice(2)
                         fs.readFile('./good_memes_probably/' + readMemeCommand[0] + '.meme', function(err, data) {
-                            sendAMessage(channelID, `${err ? 'OOF error whoops! ' + err : 'dis da maymay you requested: ' + data.toString('utf8')}`)
+                            sendAMessage(channelID, `${err ? 'OOF error whoops! ' + err.code : 'dis da maymay you requested: ' + data.toString('utf8')}`)
                             bot.getMember({
                                 serverID: retrieveServerID(),
                                 userID: userID
@@ -929,7 +920,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         if (userID == creatorID) {
                             var delMemeCommand = message.split(' ').splice(2)
                             fs.unlink('./good_memes_probably/' + delMemeCommand[0] + '.meme', function(err) {
-                                sendAMessage(channelID, `${err ? 'OOF error whoops! ' + err : 'It\'s most likely gone, yeah I\'m pretty sure it\'s gone'}`)
+                                sendAMessage(channelID, `${err ? 'OOF error whoops! ' + err.code : 'It\'s most likely gone, yeah I\'m pretty sure it\'s gone'}`)
                             });
                         }else {
                             sendAMessage(channelID, 'You currently do not have the permission to use this! However, the owner of the bot is plotting a way to have the creator of the meme be albe to delete their own meme.')
@@ -1258,7 +1249,30 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'blowup':
-                sendAMessage(channelID, 'You went kaboom and died')
+                var rRNG = Math.floor(Math.random() * 5)
+                if (rRNG == 0) {
+                    sendAMessage(channelID, 'You went kaboom and died.')
+                }else {
+                    if (rRNG == 1) {
+                        sendAMessage(channelID, 'During your 16 hour long binge-playing Team Fortress 2 you accidentally let the grenade cook for too lond and you explode.')
+                    }else {
+                        if (rRNG == 2) {
+                            sendAMessage(channelID, 'Someone in FoRtNiTe somehow got their hands on a Rocket Launcher, and since your not that great at the game they saw you and Rocket Launchered you dead.')
+                        }else {
+                            if (rRNG == 3) {
+                                sendAMessage(channelID, 'While playing CS:GO someone got the drop on you and fraged you.')
+                            }else {
+                                if (rRNG == 4) {
+                                    sendAMessage(channelID, 'Kim Jong-Un forgot what his big red button did, so he pushed it, and now everyone except for North Korea got nuked.')
+                                }else {
+                                    if (rRNG == 5) {
+                                        sendAMessage(channelID, 'The CS:GO terrorists jumped out of your monitor and thought your house was Bombsite: B.')
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1411,7 +1425,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 if (files.length == 0) {
                                     sendAMessage(channelID, 'You have no acitve tasks at the moment.');
                                 }else {
-                                    sendAMessage(channelID, 'Your active tasks: ```' + files.join(', ').replace(/.task/g, ''))
+                                    sendAMessage(channelID, 'Your active tasks: ```' + files.join(', ').replace(/.task/g, '') + '```')
                                 }
                             });
                         break;
@@ -1419,6 +1433,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }else {
                     sendAMessage(channelID, 'Only the owner can use this. Sorry.');
                 }
+            break;
+            case 'yeet':
+                sendAMessage(channelID, '<@' + userID + '> Thou shalt be yaught young one.')
+            break;
         }
     }
         

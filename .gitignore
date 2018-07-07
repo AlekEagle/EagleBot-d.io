@@ -1,3 +1,7 @@
 .auth.json
 bot - Copy.js
 auth.json
+node_modules/
+ae_todo/
+package.json
+package-lock.json

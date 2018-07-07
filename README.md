@@ -1,4 +1,7 @@
 # My-bot
+
+[![Discord](https://discordapp.com/api/guilds/456542159210807307/widget.png)](https://discord.gg/xGUC7Uh/)
+
 <a href="https://discordbots.org/bot/416274552126177282" >
   <img src="https://discordbots.org/api/widget/416274552126177282.svg" alt="AlekEagle's Bot" />
 </a>

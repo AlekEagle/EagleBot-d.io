@@ -1516,27 +1516,30 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'avatar':
-            var avatarCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
-            bot.getMember({
-                serverID: retrieveServerID,
-                userID: avatarCommand
-            }, function(e, bb) {
-                exec('wget https://discordapp.net/avatars/' + res.user.id + '/' + res.user.avatar + '.png', function(error, stdout, stderr) {
-                    if (error != undefined) {
-                        sendAMessage(channelID, 'Unable to fetch avatar at this time.')
-                        console.log(error)
-                    }else {
-                        bot.uploadFile({
-                            to: channelID,
-                            file: './' + bb.user.avatar + '.png',
-                            filename: bb.user.username + '_avatar.png',
-                            message: 'https://discordapp.net/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png'
-                        }, function(err, res) {
-                            fs.unlink('./' + bb.user.avatar + '.png')
-                        });
-                    }
+                var avatarCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: avatarCommand
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log(e);
+                    exec('wget https://discordapp.net/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png', function(error, stdout, stderr) {
+                        if (error != undefined) {
+                            sendAMessage(channelID, 'Unable to fetch avatar at this time.')
+                            console.log(error)
+                        }else {
+                            bot.uploadFile({
+                                to: channelID,
+                                file: './' + bb.user.avatar + '.png',
+                                filename: bb.user.username + '_avatar.png',
+                                message: 'https://discordapp.net/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png'
+                            }, function(err, res) {
+                                fs.unlink('./' + bb.user.avatar + '.png')
+                            });
+                        }
+                    });
                 });
-            });
+            break;
         }
     }
         

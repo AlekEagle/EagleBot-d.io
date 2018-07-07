@@ -68,6 +68,13 @@ function sendAMessage(ch, message) {
         message: message
     }, outputLog());
 }
+function sendFile(ch, file, filename) {
+    bot.uploadFile({
+        to: ch,
+        file: file,
+        filename: filename
+    });
+}
 function outputLog(err, res) {
     if (err != undefined) {
         console.log(err);
@@ -257,7 +264,17 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     limit: parsedNumToDelete
                                 }, (e, a) => {
                                     bot.deleteMessages({channelID, messageIDs: a.map(m => m.id)}, () => {
-                                        sendAMessage(channelID, 'deleted ' + numToDelete + ' messages. :thumbsup:');
+                                        bot.sendMessage({
+                                            to: channelID,
+                                            message: 'deleted ' + numToDelete + ' messages. :thumbsup:'
+                                        }, (err, res) => {
+                                            setTimeout(() => {
+                                                bot.deleteMessage({
+                                                    channelID: channelID,
+                                                    messageID: res.id
+                                                });
+                                            }, 5000);
+                                        });
                                         bot.getMember({
                                             serverID: retrieveServerID(),
                                             userID: userID
@@ -265,7 +282,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                             console.log(bb);
                                             console.log('Used del!');
                                         });
-                                        setTimeout(delPrevMessage(), 5000);
+                                        
                                     });
                                 });
                                 stopLoop = true;
@@ -1212,9 +1229,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     console.log('Used uptime!');
                 });
             break;
-            case 'stapandreboot':
+            case 'reboot':
                 if (userID == creatorID) {
-                    process.exit(0)
+                    sendAMessage(channelID, 'Alright AlekEagle, bye world, for now at least.')
+                    setTimeout(() => {
+                        process.exit(0);
+                    }, 5000);
                 }else {
                     sendAMessage(channelID, 'You are **NOT** the creator of the bot!')
                     bot.getMember({
@@ -1230,12 +1250,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 if (userID == creatorID) {
                     try {
                         var evalCommand = message.split(' ').splice(1).join(' ').replace(/;/g, '\;');
-                        sendAMessage(channelID, eval(evalCommand));
+                        var evaluation = eval(evalCommand);
+                        sendAMessage(channelID, evaluation);
                         var err = new Error('Whoops');
                         throw err;
                     } catch (err) {
                         console.log(err);
-                        sendAMessage(channelID, 'OOF, I did done a goof! This is what happened: ```' + err.stack + '```');
                     }
                 }else {
                     sendAMessage(channelID, 'Due to the nature of some people knowing how to do stuff with programming, the eval command is only available to the owner');
@@ -1327,15 +1347,30 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'exec':
                 if (userID == creatorID) {
-                    var execCommand = message.split(' ').splice(1).join(' ');
-                    exec(execCommand, function (error, stdout, stderr) {
-                        if (error != undefined && stderr != undefined) {
-                            sendAMessage(channelID, 'OOF, i broke! ```' + error + '\n' + stdout + '```');
-                        }else {
-                            sendAMessage(channelID, stdout);
-                        }
+                    bot.sendMessage({
+                        to: channelID,
+                        message: 'Executing, Please Wait'
+                    }, (err, res) => {
+                        var execCommand = message.split(' ').splice(1).join(' ');
+                        var execOutput = '';
+                        exec(execCommand, function (error, stdout, stderr) {
+                            if (error != undefined && stderr != undefined) {
+                                execOutput = 'OOF, I broke! ```' + error + '\n' + stdout + '```'
+                                bot.editMessage({
+                                    channelID: channelID,
+                                    messageID: res.id,
+                                    message: execOutput
+                                });
+                            }else {
+                                execOutput = stdout
+                                bot.editMessage({
+                                    channelID: channelID,
+                                    messageID: res.id,
+                                    message: execOutput
+                                });
+                            }
+                        });
                     });
-            
                 }else {
                     sendAMessage(channelID, 'If this was open, I might as well buy a new computer as it is.')
                     bot.getMember({
@@ -1437,6 +1472,29 @@ bot.on('message', function (user, userID, channelID, message, event) {
             case 'yeet':
                 sendAMessage(channelID, '<@' + userID + '> Thou shalt be yaught young one.')
             break;
+            case 'dbl':
+                var dblCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
+                exec('wget https://discordbots.org/api/widget/' + dblCommand + '.png', function(error, stdout, stderr) {
+                    if (err != undefined) {
+                        sendAMessage(channelID, 'Unable to fetch widget at this time.')
+                        console.log(err)
+                    }else {
+                        if (bot.users[dblCommand].bot == true) {
+                            bot.uploadFile({
+                                to: channelID,
+                                file: './' + dblCommand + '.png',
+                                filename: 'bot.png',
+                                message: 'https://discordbots.org/bot/' + dblCommand
+                            }, function(err, res) {
+                                fs.unlink('./' + dblCommand + '.png')
+                            });
+                        }else {
+                            sendAMessage(channelID, 'Wait, <@' + userID + '> **__HANG ON__** you think I\'m going to find a **__BOT__** widget for a **__USER?__** good job being a fucking idiot.')
+                        }
+                    }
+                });
+            break;
+            
         }
     }
         

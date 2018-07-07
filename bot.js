@@ -1467,17 +1467,31 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     }
                 }else {
                     sendAMessage(channelID, 'Only the owner can use this. Sorry.');
+                    bot.getMember({
+                        serverID: retrieveServerID(),
+                        userID: userID
+                    }, function(e, bb) {
+                        console.log(bb);
+                        console.log('Tried to use todo!');
+                    });
                 }
             break;
             case 'yeet':
                 sendAMessage(channelID, '<@' + userID + '> Thou shalt be yaught young one.')
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Used yeet!');
+                });
             break;
             case 'dbl':
                 var dblCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
                 exec('wget https://discordbots.org/api/widget/' + dblCommand + '.png', function(error, stdout, stderr) {
-                    if (err != undefined) {
+                    if (error != undefined) {
                         sendAMessage(channelID, 'Unable to fetch widget at this time.')
-                        console.log(err)
+                        console.log(error)
                     }else {
                         if (bot.users[dblCommand].bot == true) {
                             bot.uploadFile({
@@ -1493,8 +1507,36 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         }
                     }
                 });
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Used dbl!');
+                });
             break;
-            
+            case 'avatar':
+            var avatarCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
+            bot.getMember({
+                serverID: retrieveServerID,
+                userID: avatarCommand
+            }, function(e, bb) {
+                exec('wget https://discordapp.net/avatars/' + res.user.id + '/' + res.user.avatar + '.png', function(error, stdout, stderr) {
+                    if (error != undefined) {
+                        sendAMessage(channelID, 'Unable to fetch avatar at this time.')
+                        console.log(error)
+                    }else {
+                        bot.uploadFile({
+                            to: channelID,
+                            file: './' + bb.user.avatar + '.png',
+                            filename: bb.user.username + '_avatar.png',
+                            message: 'https://discordapp.net/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png'
+                        }, function(err, res) {
+                            fs.unlink('./' + bb.user.avatar + '.png')
+                        });
+                    }
+                });
+            });
         }
     }
         

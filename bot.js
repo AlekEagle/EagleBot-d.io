@@ -1630,8 +1630,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: avatarCommand
                 }, function(e, bb) {
-                    sendAMessage(channelID, 'Please wait while I retrieve the avatar from the place you call cdn.discordapp.com')
-                    exec('wget https://cdn.discordapp.com/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png?size=2048', function(error, stdout, stderr) {
+                    bot.simulateTyping({
+                        channelID: channelID
+                    }, function() {
+                        exec('wget https://cdn.discordapp.com/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png?size=2048', function(error, stdout, stderr) {
                         if (error != undefined) {
                             sendAMessage(channelID, 'Unable to fetch avatar at this time.')
                             console.log(error)
@@ -1645,6 +1647,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             });
                         }
                     });
+                    })
                 });
             break;
             case 'react':
@@ -1657,8 +1660,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'getemoji':
                 var retrievecustomemojiCommand = message.split(' ').splice(1).join(' ').replace(/</g, '').replace(/>/g, '').split(':').splice(2).join('')
-                sendAMessage(channelID, 'Please wait while I retrieve the emoji from the place you call cdn.discordapp.com')
-                exec('wget https://cdn.discordapp.com/emojis/' + retrievecustomemojiCommand + '.png', function(error, stdout, stderr) {
+                bot.simulateTyping({
+                    channelID: channelID
+                }, function() {
+                    exec('wget https://cdn.discordapp.com/emojis/' + retrievecustomemojiCommand + '.png', function(error, stdout, stderr) {
                         if (error != undefined) {
                             sendAMessage(channelID, 'Unable to fetch emoji at this time.')
                             console.log(error)
@@ -1672,6 +1677,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             });
                         }
                     });
+                });
             break;
         }
     }

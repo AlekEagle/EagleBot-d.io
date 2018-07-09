@@ -1630,9 +1630,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: avatarCommand
                 }, function(e, bb) {
-                    bot.simulateTyping({
-                        channelID: channelID
-                    }, function() {
+                    bot.simulateTyping(channelID, function() {
                         exec('wget https://cdn.discordapp.com/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png?size=2048', function(error, stdout, stderr) {
                         if (error != undefined) {
                             sendAMessage(channelID, 'Unable to fetch avatar at this time.')
@@ -1660,9 +1658,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'getemoji':
                 var retrievecustomemojiCommand = message.split(' ').splice(1).join(' ').replace(/</g, '').replace(/>/g, '').split(':').splice(2).join('')
-                bot.simulateTyping({
-                    channelID: channelID
-                }, function() {
+                bot.simulateTyping(channelID, function() {
                     exec('wget https://cdn.discordapp.com/emojis/' + retrievecustomemojiCommand + '.png', function(error, stdout, stderr) {
                         if (error != undefined) {
                             sendAMessage(channelID, 'Unable to fetch emoji at this time.')

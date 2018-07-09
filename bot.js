@@ -1686,6 +1686,25 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         }
                     });
                 });
+            break;
+            case 'retrievecustomemoji':
+                var retrievecustomemojiCommand = message.split(' ').splice(1).join(' ').replace(/</g, '').replace(/>/g, '').split(':').splice(2).join('')
+                sendAMessage(channelID, 'Please wait while I retrieve the emoji from the place you call cdn.discordapp.com')
+                exec('wget https://cdn.discordapp.com/emoji/' + retrievecustomemojiCommand + '.png?size=2048', function(error, stdout, stderr) {
+                        if (error != undefined) {
+                            sendAMessage(channelID, 'Unable to fetch emoji at this time.')
+                            console.log(error)
+                        }else {
+                            bot.uploadFile({
+                                to: channelID,
+                                file: './' + retrievecustomemojiCommand + '.png?size=2048',
+                                filename:  'emoji.png',
+                            }, function(err, res) {
+                                fs.unlink('./' + retrievecustomemojiCommand + '.png?size=2048')
+                            });
+                        }
+                    });
+
                 
         }
     }  

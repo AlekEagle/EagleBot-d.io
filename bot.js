@@ -1413,12 +1413,34 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         var execOutput = '';
                         exec(execCommand, function (error, stdout, stderr) {
                             if (error != undefined && stderr != undefined) {
-                                execOutput = 'OOF, I broke! ```' + error + '\n' + stdout + '```'
-                                bot.editMessage({
-                                    channelID: channelID,
-                                    messageID: res.id,
-                                    message: execOutput
-                                });
+                                if (stdout.length > 2000) {
+                                    bot.editMessage({
+                                        channelID: channelID,
+                                        messageID: res.id,
+                                        message: 'Output too large, please wait while I pack the output into a file.'
+                                    }, (err) => {
+                                        fs.writeFile('exec_output.txt', stdout, (err) => {
+                                            if (err != undefined) {
+                                                sendAMessage(channelID, 'An error occurred while this action was happening error code: ' + err.code)
+                                            }else {
+                                                bot.uploadFile({
+                                                    to: channelID,
+                                                    file: 'exec_output.txt'
+                                                }, (err) => {
+                                                    fs.unlink('exec_output.txt');
+                                                });
+                                            }
+                                        });
+                                    }); 
+                                    
+                                }else {
+                                    execOutput = 'OOF, I broke! ```' + error + '\n' + stdout + '```'
+                                    bot.editMessage({
+                                        channelID: channelID,
+                                        messageID: res.id,
+                                        message: execOutput
+                                    });
+                                }
                             }else {
                                 if (stdout.length > 2000) {
                                     bot.editMessage({

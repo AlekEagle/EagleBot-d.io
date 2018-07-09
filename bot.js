@@ -1420,12 +1420,32 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     message: execOutput
                                 });
                             }else {
-                                execOutput = stdout
-                                bot.editMessage({
-                                    channelID: channelID,
-                                    messageID: res.id,
-                                    message: execOutput
-                                });
+                                if (stdout.length > 2000) {
+                                    bot.editMessage({
+                                        channelID: channelID,
+                                        messageID: res.id,
+                                        message: 'Output too large, please wait while I pack the output into a file.'
+                                    }, (err) => {
+                                        fs.writeFile('exec_output.txt', stdout, (err) => {
+                                            if (err != undefined) {
+                                                sendAMessage(channelID, 'An error occurred while this action was happening error code: ' + err.code)
+                                            }else {
+                                                bot.uploadFile({
+                                                    to: channelID,
+                                                    file: 'exec_output.txt'
+                                                });
+                                            }
+                                        });
+                                    }); 
+                                    
+                                }else {
+                                    execOutput = stdout
+                                    bot.editMessage({
+                                        channelID: channelID,
+                                        messageID: res.id,
+                                        message: execOutput
+                                    });
+                                }
                             }
                         });
                     });

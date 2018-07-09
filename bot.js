@@ -19,7 +19,7 @@ const pmx = require('pmx').init({
 });
 var prefix = 'a}'
 var betaPrefix = '{}'
-const timesCancerHasBeenCured = 0;
+var timesCancerHasBeenCured = 0;
 const creatorServerID = '456542159210807307';
 const creatorID = '222882552472535041';
 // Configure logger settings
@@ -1433,6 +1433,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                                 bot.uploadFile({
                                                     to: channelID,
                                                     file: 'exec_output.txt'
+                                                }, (err) => {
+                                                    fs.unlink('exec_output.txt');
                                                 });
                                             }
                                         });

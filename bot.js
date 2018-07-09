@@ -1655,6 +1655,24 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     reaction: reactCommand[2]
                 });
             break;
+            case 'getemoji':
+                var retrievecustomemojiCommand = message.split(' ').splice(1).join(' ').replace(/</g, '').replace(/>/g, '').split(':').splice(2).join('')
+                sendAMessage(channelID, 'Please wait while I retrieve the emoji from the place you call cdn.discordapp.com')
+                exec('wget https://cdn.discordapp.com/emojis/' + retrievecustomemojiCommand + '.png', function(error, stdout, stderr) {
+                        if (error != undefined) {
+                            sendAMessage(channelID, 'Unable to fetch emoji at this time.')
+                            console.log(error)
+                        }else {
+                            bot.uploadFile({
+                                to: channelID,
+                                file: './' + retrievecustomemojiCommand + '.png',
+                                filename:  'emoji.png',
+                            }, function(err, res) {
+                                fs.unlink('./' + retrievecustomemojiCommand + '.png')
+                            });
+                        }
+                    });
+            break;
         }
     }
     if (message.substring(0, 2) == betaPrefix && bot.users[userID].bot == false) {

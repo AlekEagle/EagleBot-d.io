@@ -6,6 +6,8 @@ const fs = require('fs');
 const sys = require('sys');
 const exec = require('child_process').exec;
 function puts(error, stdout, stderr) { sys.puts(stdout) }
+var cmdsRan = 0
+var messagesRead = 0
 const request = require('request');
 const pmx = require('pmx').init({
     http : true,
@@ -15,7 +17,8 @@ const pmx = require('pmx').init({
     network : true,
     ports : true
 });
-const prefix = '}'
+var prefix = '}'
+var betaPrefix = '{}'
 const timesCancerHasBeenCured = 0;
 const creatorServerID = '456542159210807307';
 const creatorID = '222882552472535041';
@@ -41,6 +44,7 @@ logger.level = 'debug';
 var bot = new Discord.Client({
    token: u_wot_m8.token,
    autorun: true
+
 });
 function sleep(seconds = milliseconds * 1000) {seconds;}
 bot.on('ready', function (evt) {
@@ -106,7 +110,7 @@ bot.on("guildDelete", function guildDelete() {
     });
 });
 bot.on('message', function (user, userID, channelID, message, event) {
-
+    messagesRead = ++messagesRead
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `}`
     function retrieveServerID() {
@@ -127,7 +131,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
        args = args.splice(1);
         switch(cmd) {
             case 'help':
-                sendAMessage(channelID, '}help: displays this\n}curecancer cures cancer! (sometimes)\n}say makes the bot say something\n}revivechat might revive chat, not 100% sure\n}deadchat engraves the fact that the chat is dead and nothing will change that\n}cancercured will show you how many times cancer has been cured\n}whatsnew shows what is new about the bot\n}config will help you configure the bot example: `}config op-roles @role(s)`\n}touch is kinda kinky ex: `}touch _____`\n}die will kill whoever you ping ex: `}die @person`\n}succ is very gay ex: `}succ _____`\n}meme has multiple arguements! to use this command, you are probably going to have to ask someone who added a meme to the list. the first arguement is savememe ex: `}meme savememe (meme_name_substitute_spaces_with_dashes_or_underscores) (meme to store, to store pictures use the picture link)` arg 2: showmeme recalls meme ex: `}meme showmeme (meme_name_substitute_spaces_with_dashes_or_underscores)` Arg 3: listmeme lists all da memes ex: `}meme listmeme` NOTE: some memes are inside jokes and you will probably need to know about the server or what the meme is directed at.\n}invite will give you the link to invite the bot\n}anti-hack will activate my bot\'s anti hack measures NOTE: Don\'t spam it or i\'ll remove it!\n}emoji will change any sentence into emojis `a` `ab` and `o` will have their red counterparts!\n}info gives info about bot\n}uptime shows uptime of my computer and bot\n}ping will return the bots ping\n}reportbug will report a bug\n}suggestcmd will suggest a command\n}blowup will blow you up\n}vote will allow you to vote for me\n}yeet shall yeet you')
+                cmdsRan = ++cmdsRan
+                sendAMessage(channelID, '}help: displays this\n}curecancer cures cancer! (sometimes)\n}say makes the bot say something\n}revivechat might revive chat, not 100% sure\n}deadchat engraves the fact that the chat is dead and nothing will change that\n}cancercured will show you how many times cancer has been cured\n}whatsnew shows what is new about the bot\n}config will help you configure the bot example: `}config op-roles @role(s)`\n}touch is kinda kinky ex: `}touch _____`\n}die will kill whoever you ping ex: `}die @person`\n}succ is very gay ex: `}succ _____`\n}meme has multiple arguements! to use this command, you are probably going to have to ask someone who added a meme to the list. the first arguement is savememe ex: `}meme savememe (meme_name_substitute_spaces_with_dashes_or_underscores) (meme to store, to store pictures use the picture link)` arg 2: showmeme recalls meme ex: `}meme showmeme (meme_name_substitute_spaces_with_dashes_or_underscores)` Arg 3: listmeme lists all da memes ex: `}meme listmeme` NOTE: some memes are inside jokes and you will probably need to know about the server or what the meme is directed at.\n}invite will give you the link to invite the bot\n}anti-hack will activate my bot\'s anti hack measures NOTE: Don\'t spam it or i\'ll remove it!\n}emoji will change any sentence into emojis `a` `ab` and `o` will have their red counterparts!\n}info gives info about bot\n}uptime shows uptime of my computer and bot\n}ping will return the bots ping\n}reportbug will report a bug\n}suggestcmd will suggest a command\n}blowup will blow you up\n}vote will allow you to vote for me\n}yeet shall yeet you\n}dbl will show the bot\'s widget from discordbots.org (if it\'s on dbl)\n}avatar will show who ever you ping\'s avatar')
                 sendAMessage(channelID, 'To use These commands you **MUST** configure the bot to use them first:\n}del will delete the number of messages specified example: `}del 10`\n}setnick will change a persons nickname example: `}setnick @personguy nickname`\n}grantrole and }revokerole will give and remove someones role example: `}grantrole(revokerole) @person @role` **YOU MUST BE ABLE TO PING THE ROLE TO GRANT IT**\n}qotd is a question of the day command example: `}qotd #qotd_answer this is the qotd`\n}announcement is an announcement command example: `}announcement #announcements this is the announcement`\n}ban will ban someone (kinda obvious) ex: `}ban @person`\n}unban is }ban\'s counterpart ex: `}unban userID` *Note: You will need to have developer mode on in the settings to get the userID I recommend to Google search for a tutorial*\n}kick kicks someone from the server ex: `}kick @person`\n}mute }unmute }deafen and }undeafen are all commands to mute, unmute, deafen, and undeafen users in voice channels ex: `}mute|unmute|deafen|undeafen @person`')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -138,6 +143,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'curecancer':
+                cmdsRan = ++cmdsRan
                 var rNG  = Math.floor(Math.random() * 100);
 //                var rNG = 100;
                 if (rNG < 99) {
@@ -168,6 +174,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'setnick':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -230,6 +237,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'say':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -243,6 +251,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'del':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -312,6 +321,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 
             break;
             case 'revivechat':
+                cmdsRan = ++cmdsRan
                 console.log(userID);
                 sendAMessage(channelID, '<@' + userID + '> used Revive Chat! It\'s super effective! NOW EVERYONE WAKE UP!!!!!');
                 bot.getMember({
@@ -323,6 +333,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'deadchat':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, '*A strange and spooky silence falls over <#' + channelID + '> as everyone stopped typing and most likely died*');
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -333,19 +344,21 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'cancercured':
-            fs.readFile('cancercured.txt', function(err, data) {
-                timesCancerHasBeenCured = data.toString('utf8')
-                sendAMessage(channelID, 'cancer has been cured: ' + timesCancerHasBeenCured + ' times since me and AlekEagle started to keep track');
-                bot.getMember({
+                cmdsRan = ++cmdsRan
+                fs.readFile('cancercured.txt', function(err, data) {
+                    timesCancerHasBeenCured = data.toString('utf8')
+                    sendAMessage(channelID, 'cancer has been cured: ' + timesCancerHasBeenCured + ' times since me and AlekEagle started to keep track');
+                    bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
-                }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used revivechat!');
+                    }, function(e, bb) {
+                        console.log(bb);
+                        console.log('Used revivechat!');
+                    });
                 });
-            });
             break;
             case 'qotd':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -400,6 +413,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 
             break;
             case 'announcement':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -450,6 +464,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'grantrole':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -508,6 +523,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'revokerole':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -566,6 +582,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'setplaying':
+                cmdsRan = ++cmdsRan
                 if (userID == creatorID) {
                     var setPlayingCommand = message.split(' ').slice(1).join(' ')
                 	bot.setPresence({
@@ -588,6 +605,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
             	
             break;
             case 'test':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, 'Uhh... Umm... I don\'t think **AlekEagle#6978** is working on anything to test atm, *though, he is making a second prefix for beta commands, as soon as he figures out how to use prefixes that are longer than 1 character long*');
                 sendAMessage(channelID, 'ERR404: TEST CMD NOT FOUND')
                 bot.getMember({
@@ -599,6 +617,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'config':
+                cmdsRan = ++cmdsRan
                 fs.access('./allowed_roles/' + retrieveServerID() + '.settings', fs.constants.F_OK, (err) => {
                     if (err == null) {
                         bot.getMember({
@@ -686,6 +705,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 })
             break;
             case 'whatsnew':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, 'Bot version: `1.2.0 the "AlekEagle#6978 got to work" update`\nAdded s\'more outputs to `}blowup`.')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -696,10 +716,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'touch':
+                cmdsRan = ++cmdsRan
                 var touchCommand = message.split(' ').splice(1).join(' ').replace(/my/g, 'your').replace(/im/g, 'you\'re').replace(/i'm/g, 'you\'re').replace(/Im/g, 'you\'re').replace(/I'm/g, 'you\'re')
                 sendAMessage(channelID, '*touched ' + touchCommand + '*')
             break;
             case 'ban':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -751,6 +773,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'unban':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -802,6 +825,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'kick':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -853,6 +877,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'die':
+                cmdsRan = ++cmdsRan
                 var dieCommand = message.split(' ').splice(1)
                 sendAMessage(channelID, dieCommand + ' absloutely got rekt and had the bum sex done to them by <@' + userID + '>')
                 bot.getMember({
@@ -864,6 +889,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'succ':
+                cmdsRan = ++cmdsRan
                 var succCommand = message.split(' ').splice(1).join(' ').replace(/my/g, 'your').replace(/im/g, 'you\'re').replace(/i'm/g, 'you\'re').replace(/Im/g, 'you\'re').replace(/I'm/g, 'you\'re');
                 sendAMessage(channelID, '*succed ' + succCommand + '*');
                 bot.getMember({
@@ -875,6 +901,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'meme':
+                cmdsRan = ++cmdsRan
                 var memeArgs = message.split(' ').splice(1)
                 switch(memeArgs[0]) {
                     case 'savememe':
@@ -952,6 +979,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'mute':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1004,6 +1032,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'invite':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, 'Ok the link to invite me is: https://discordapp.com/api/oauth2/authorize?client_id=416274552126177282&permissions=499645511&scope=bot')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1014,6 +1043,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'anti-hack':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, '<@' + userID + '> has activated my anti-hack defenses! anyone trying to hacc me will parish, ~~(and it probably won\'t happen because <@' + creatorID + '> will try not to make the mistake again)~~')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1024,6 +1054,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'github':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, 'here: https://github.com/AlekEagleYT/Discord-Bot')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1034,6 +1065,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'emoji':
+                cmdsRan = ++cmdsRan
                 var emojiCommand = message.split(' ').splice(1).join(' ').replace(/ /g, '    ').replace(/ab/ig, '🆎 ').replace(/a/ig, '🅰️ ').replace(/b/ig, '🅱️ ').replace(/c/ig, '🇨 ').replace(/d/ig, '🇩 ').replace(/e/ig, '🇪 ').replace(/f/ig, '🇫 ').replace(/g/ig, '🇬 ').replace(/h/ig, '🇭 ').replace(/i/ig, '🇮 ').replace(/j/ig, '🇯 ').replace(/k/ig, '🇰 ').replace(/l/ig, '🇱 ').replace(/m/ig, '🇲 ').replace(/n/ig, '🇳 ').replace(/p/ig, '🇵 ').replace(/q/ig, '🇶 ').replace(/s/ig, '🇸 ').replace(/t/ig, '🇹 ').replace(/u/ig, '🇺 ').replace(/v/ig, '🇻 ').replace(/w/ig, '🇼 ').replace(/x/ig, '🇽 ').replace(/y/ig, '🇾 ').replace(/z/ig, '🇿 ').replace(/r/ig, '🇷 ').replace(/o/ig, '🅾️ ');
                 delPrevMessage();
                 sendAMessage(channelID, emojiCommand);
@@ -1046,6 +1078,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'unmute':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1098,6 +1131,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'deafen':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1150,6 +1184,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'undeafen':
+                cmdsRan = ++cmdsRan
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1202,11 +1237,18 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'info':
+                cmdsRan = ++cmdsRan
                 var time = process.uptime();
                 var uptime = (time + "").toHHMMSS();
                 var osTime = require('os').uptime();
                 var osUptime = (osTime + "").toHHMMSS();
-                sendAMessage(channelID, 'Ummm... I\'m a Discord Bot.\n I was made by **__AlekEagle#6978__**\n*What else is there about me?* I use the Discord.io library\nThis right there ==> **__' + uptime + '__** is how long I\'ve been running.\nThe computer running me has been on for this ==> **__' + osUptime + '__**\nI\'m ran on a Raspberry Pi 3 B\nI\'m on Discord Bot List link: https://discordbots.org/bot/416274552126177282 \nI\'m in... uhh... let me check. Ok here it is: **__' + Object.keys(bot.servers).length + '__** servers.\nThe support server is https://discord.gg/xGUC7Uh in the category "bot related stuff"\nUse `}invite` to take a clone of me with you to your server\nThat\'s all I know about myself')
+                bot.sendMessage({
+                    to: channelID,
+                    embed: {
+                        title: 'info',
+                        description: 'Ummm... I\'m a Discord Bot.\n I was made by **__AlekEagle#6978__**\n*What else is there about me?* I use the Discord.io library\nThis right there ==> **__' + uptime + '__** is how long I\'ve been running.\nThe computer running me has been on for this ==> **__' + osUptime + '__**\nI\'m ran on a Raspberry Pi 3 B\nI\'m on Discord Bot List link: https://discordbots.org/bot/416274552126177282 \nI\'m in... uhh... let me check. Ok here it is: **__' + Object.keys(bot.servers).length + '__** servers.\nThe support server is https://discord.gg/xGUC7Uh in the category "bot related stuff"\nUse `}invite` to take a clone of me with you to your server\nI\'m using: **__' + Math.floor(process.memoryUsage().rss / 1024 / 1024) + 'MB__** of RAM\n**__' + cmdsRan + '__** commands have been run since the last time I\'ve been rebooted.\n**__' + messagesRead + '__** messages have been read since the last time I\'ve been rebooted.\nThat\'s all I know about myself'
+                    }
+                })
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1216,6 +1258,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'uptime':
+                cmdsRan = ++cmdsRan
                 var time = process.uptime();
                 var uptime = (time + "").toHHMMSS();
                 var osTime = require('os').uptime();
@@ -1230,6 +1273,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'reboot':
+                cmdsRan = ++cmdsRan
                 if (userID == creatorID) {
                     sendAMessage(channelID, 'Alright AlekEagle, bye world, for now at least.')
                     setTimeout(() => {
@@ -1247,6 +1291,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'eval':
+                cmdsRan = ++cmdsRan
                 if (userID == creatorID) {
                     try {
                         var evalCommand = message.split(' ').splice(1).join(' ').replace(/;/g, '\;');
@@ -1269,6 +1314,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'blowup':
+                cmdsRan = ++cmdsRan
                 var rRNG = Math.floor(Math.random() * 5)
                 if (rRNG == 0) {
                     sendAMessage(channelID, 'You went kaboom and died.')
@@ -1302,6 +1348,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'ping':
+                cmdsRan = ++cmdsRan
                 const then = Date.now();
                 bot.sendMessage({
                     to: channelID,
@@ -1322,6 +1369,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'reportbug':
+                cmdsRan = ++cmdsRan
                 var reportBugCommand = message.split(' ').splice(1).join(' ');
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1334,6 +1382,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'suggestcmd':
+                cmdsRan = ++cmdsRan
                 var suggestCmdCommand = message.split(' ').splice(1).join(' ');
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1346,6 +1395,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'exec':
+                cmdsRan = ++cmdsRan
                 if (userID == creatorID) {
                     bot.sendMessage({
                         to: channelID,
@@ -1383,6 +1433,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'vote':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, 'Vote for me at: https://discordbots.org/bot/416274552126177282/vote because yeet.')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1393,6 +1444,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'token':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, auth.token);
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1403,6 +1455,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'todo':
+                cmdsRan = ++cmdsRan
                 if (userID == creatorID) {
                     var todoCommand = message.split(' ').splice(1);
                     switch(todoCommand[0]) {
@@ -1477,6 +1530,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }
             break;
             case 'yeet':
+                cmdsRan = ++cmdsRan
                 sendAMessage(channelID, '<@' + userID + '> Thou shalt be yaught young one.')
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1487,6 +1541,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'dbl':
+                cmdsRan = ++cmdsRan
                 var dblCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
                 exec('wget https://discordbots.org/api/widget/' + dblCommand + '.png', function(error, stdout, stderr) {
                     if (error != undefined) {
@@ -1504,6 +1559,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             });
                         }else {
                             sendAMessage(channelID, 'Wait, <@' + userID + '> **__HANG ON__** you think I\'m going to find a **__BOT__** widget for a **__USER?__** good job being a fucking idiot.')
+                            fs.unlink('./' + dblCommand + '.png')
                         }
                     }
                 });
@@ -1516,25 +1572,24 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 });
             break;
             case 'avatar':
+                cmdsRan = ++cmdsRan
                 var avatarCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: avatarCommand
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log(e);
-                    exec('wget https://discordapp.net/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png', function(error, stdout, stderr) {
+                    sendAMessage(channelID, 'Please wait while I retrieve the avatar from the place you call cdn.discordapp.com')
+                    exec('wget https://cdn.discordapp.com/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png?size=2048', function(error, stdout, stderr) {
                         if (error != undefined) {
                             sendAMessage(channelID, 'Unable to fetch avatar at this time.')
                             console.log(error)
                         }else {
                             bot.uploadFile({
                                 to: channelID,
-                                file: './' + bb.user.avatar + '.png',
+                                file: './' + bb.user.avatar + '.png?size=2048',
                                 filename: bb.user.username + '_avatar.png',
-                                message: 'https://discordapp.net/avatars/' + bb.user.id + '/' + bb.user.avatar + '.png'
                             }, function(err, res) {
-                                fs.unlink('./' + bb.user.avatar + '.png')
+                                fs.unlink('./' + bb.user.avatar + '.png?size=2048')
                             });
                         }
                     });
@@ -1542,7 +1597,38 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
         }
     }
-        
+    if (message.substring(0, 2) == betaPrefix && bot.users[userID].bot == false) {
+        var args = message.substring(2).split(' ');
+        var cmd = args[0];
+        args = args.splice(1)
+        switch(cmd) {
+            case 'help':
+                sendAMessage(channelID, 'Beta commands: key: <required> [optional] \n{}embed will embed your message usage: `{}embed <color> <body>`')
+            break;
+            case 'embed':
+                var embedBetaCommand = message.split(' ').splice(1)
+                var embedColor = "0x" + embedBetaCommand[0]
+                var embededMessage = embedBetaCommand.splice(1).join(' ');
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(err, res) {
+                    bot.sendMessage({
+                        to: channelID,
+                        embed: {
+                            author: {
+                                icon_url: 'https://cdn.discordapp.com/avatars/' + userID + '/' + res.user.avatar,
+                                name: res.user.username
+                            },
+                            color: parseInt(embedColor),
+                            title: 'Yeet',
+                            description: embededMessage
+                        }
+                    });
+                });
+                
+        }
+    }  
      
      if (message == '<@' + bot.id + '> today is my birthday' && bot.users[userID].bot == false) {
          sendAMessage(channelID, '<@' + userID + '> here is a well constructed paragraph of me wishing you a happy birthday and hoping that you will get the most enjoyment out of your day instead of eating a tuna fish sandwich for lunch. You have successfully survived 365 days of the Earth\'s cycle  orbiting around the sun. This is an accomplishment that everyone should enjoy as it is a milestone of their life. And every milestone adds an additional number to your age which also dictates your maturity. Anyway, to complete your ritual in successfully becoming older, you must produce a cake that has the ingredients: milk, butter, and eggs so that you can be protected from aging too quickly but not live forever. You can\'t live forever so this will do. You have the option to "make a wish" if you do so desire as you blow the the right amount of candles that is equal to your age. Wishes can be rarely granted to anyone on their birthday so don\'t waste this opportunity of yours.\n\nlol im done happy 365 days of living lawl')

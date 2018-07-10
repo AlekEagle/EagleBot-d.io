@@ -1320,7 +1320,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 to: channelID,
                                 message: 'Output too large, please wait while I pack the output into a file.'
                             }, function(err, res) {
-                                fs.writeFile('eval_output.txt', stdout, (err) => {
+                                fs.writeFile('eval_output.txt', evaluation, (err) => {
                                     if (err != undefined) {
                                         sendAMessage(channelID, 'An error occurred while this action was being preformed error code: ' + err.code)
                                     }else {

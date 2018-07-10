@@ -56,6 +56,7 @@ bot.on('ready', function (evt) {
     console.log('Connected');
     console.log('Logged in as: ');
     console.log(bot.username + ' - (' + bot.id + ')');
+    sendAMessage('466276525759528960', 'Successfully launched!')
 });
 pmx.action('setplaying:text', function(param, reply) {
     console.log(param)
@@ -1284,6 +1285,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 cmdsRan = ++cmdsRan
                 if (userID == creatorID) {
                     sendAMessage(channelID, 'Alright AlekEagle, bye world, for now at least.')
+                    sendAMessage('466276525759528960', 'Stopping process!')
                     setTimeout(() => {
                         process.exit(0);
                     }, 5000);

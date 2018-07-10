@@ -1336,7 +1336,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         }
                         sendAMessage(channelID, clean(evaluation));
                     } catch (err) {
-                        sendAMessage(channelID, 'OOF: ' + clean(err))
+                        sendAMessage(channelID, 'OOF: ```' + clean(err) + '```')
                     }
                 }else {
                     sendAMessage(channelID, 'Due to the nature of some people knowing how to do stuff with programming, the eval command is only available to the owner');

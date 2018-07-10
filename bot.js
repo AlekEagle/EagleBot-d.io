@@ -146,7 +146,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
-                }, function(e, bb) {
+                }, function(err, bb) {
                     console.log(bb);
                     console.log('Used help!');
                 });

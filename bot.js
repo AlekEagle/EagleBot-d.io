@@ -1359,9 +1359,9 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'ping':
                 cmdsRan = ++cmdsRan
-                const then = Date.now();
                 exec('ping -c 1 104.16.59.5', function(error, stdout, stderr) {
                     var apiPingTime = stdout.split('time=').splice(1).join('').split('ms\n')
+                    const then = Date.now();
                     bot.sendMessage({
                         to: channelID,
                         message: 'Pinging...'

@@ -1594,26 +1594,27 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'dbl':
                 cmdsRan = ++cmdsRan
-                var dblCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
-                exec('wget https://discordbots.org/api/widget/' + dblCommand + '.png', function(error, stdout, stderr) {
-                    if (error != undefined) {
-                        sendAMessage(channelID, 'Unable to fetch widget at this time.')
-                        console.log(error)
-                    }else {
-                        if (bot.users[dblCommand].bot == true) {
-                            bot.uploadFile({
-                                to: channelID,
-                                file: './' + dblCommand + '.png',
-                                filename: 'bot.png',
-                                message: 'https://discordbots.org/bot/' + dblCommand
-                            }, function(err, res) {
-                                fs.unlink('./' + dblCommand + '.png')
-                            });
+                bot.simulateTyping(channelID, function() {
+                    var dblCommand = message.split(' ').splice(1).join(' ').replace(/<@/g, '').replace(/>/g, '')
+                    exec('wget https://discordbots.org/api/widget/' + dblCommand + '.png', function(error, stdout, stderr) {
+                        if (error != undefined) {
+                            sendAMessage(channelID, 'Unable to fetch widget at this time.')
+                            console.log(error)
                         }else {
-                            sendAMessage(channelID, 'Wait, <@' + userID + '> **__HANG ON__** you think I\'m going to find a **__BOT__** widget for a **__USER?__** good job being a fucking idiot.')
-                            fs.unlink('./' + dblCommand + '.png')
+                            if (bot.users[dblCommand].bot == true) {
+                                bot.uploadFile({
+                                    to: channelID,
+                                    file: './' + dblCommand + '.png',
+                                    filename: 'bot.png',
+                                    message: 'https://discordbots.org/bot/' + dblCommand
+                                }, function(err, res) {
+                                    fs.unlink('./' + dblCommand + '.png')
+                                });
+                            }else {
+                                sendAMessage(channelID, 'Wait, <@' + userID + '> **__HANG ON__** you think I\'m going to find a **__BOT__** widget for a **__USER?__** good job being a fucking idiot.')
+                                fs.unlink('./' + dblCommand + '.png')
+                            }
                         }
-                    }
                 });
                 bot.getMember({
                     serverID: retrieveServerID(),
@@ -1621,6 +1622,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }, function(e, bb) {
                     console.log(bb);
                     console.log('Used dbl!');
+                });
                 });
             break;
             case 'avatar':

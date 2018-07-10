@@ -1654,16 +1654,32 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     });
                     })
                 });
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Used avatar!');
+                });
             break;
             case 'react':
+                cmdsRan = ++cmdsRan
                 var reactCommand = message.split(' ').splice(1)
                 bot.addReaction({
-                    channelID: reactCommand[0],
-                    messageID: reactCommand[1],
-                    reaction: reactCommand[2]
+                    channelID: channelID,
+                    messageID: event.d.id,
+                    reaction: reactCommand[0]
+                });
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Used react!');
                 });
             break;
             case 'getemoji':
+                cmdsRan = ++cmdsRan
                 var retrievecustomemojiCommand = message.split(' ').splice(1).join(' ').replace(/</g, '').replace(/>/g, '').split(':').splice(2).join('')
                 bot.simulateTyping(channelID, function() {
                     exec('wget https://cdn.discordapp.com/emojis/' + retrievecustomemojiCommand + '.png', function(error, stdout, stderr) {
@@ -1681,7 +1697,24 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         }
                     });
                 });
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Used getemoji!');
+                });
             break;
+            case 'givemediscordnitro':
+                cmdsRan = ++cmdsRan
+                sendAMessage(channelID, 'I\'ll give you Discord Nitro for a nice payment of $50 per year')
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb);
+                    console.log('Tried to get Discord Nitro!');
+                });
         }
     }
     if (message.substring(0, 2) == betaPrefix && bot.users[userID].bot == false) {

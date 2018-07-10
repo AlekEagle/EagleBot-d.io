@@ -1692,9 +1692,9 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 cmdsRan = ++cmdsRan
                 var reactCommand = message.split(' ').splice(1)
                 bot.addReaction({
-                    channelID: channelID,
-                    messageID: event.d.id,
-                    reaction: reactCommand[0]
+                    channelID: reactCommand[0],
+                    messageID: reactCommand[1],
+                    reaction: reactCommand[2]
                 });
                 bot.getMember({
                     serverID: retrieveServerID(),

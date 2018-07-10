@@ -17,6 +17,12 @@ const pmx = require('pmx').init({
     network : true,
     ports : true
 });
+function clean(text) {
+    if (typeof(text) === "string")
+      return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
+    else
+        return text;
+  }
 var prefix = 'a}'
 var betaPrefix = '{}'
 var timesCancerHasBeenCured = 0;
@@ -1304,13 +1310,11 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 cmdsRan = ++cmdsRan
                 if (userID == creatorID) {
                     try {
-                        var evalCommand = message.split(' ').splice(1).join(' ').replace(/;/g, '\;');
-                        var evaluation = eval(evalCommand);
-                        sendAMessage(channelID, evaluation);
-                        var err = new Error('Whoops');
-                        throw err;
+                        var evalCommand = message.split(' ').splice(1).join(' ');
+                        let evaluation = eval(evalCommand);
+                        sendAMessage(channelID, clean(evaluation));
                     } catch (err) {
-                        console.log(err);
+                        sendAMessage(channelID, 'OOF: ' + clean(err))
                     }
                 }else {
                     sendAMessage(channelID, 'Due to the nature of some people knowing how to do stuff with programming, the eval command is only available to the owner');

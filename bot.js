@@ -1728,6 +1728,11 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             });
                         }
                     });
+            break;
+            case 'pingapi':
+                exec('ping -c 1 104.16.59.5', function(error, stdout, stderr) {
+                    sendAMessage(channelID, stdout)
+                });
 
                 
         }

@@ -1360,16 +1360,19 @@ bot.on('message', function (user, userID, channelID, message, event) {
             case 'ping':
                 cmdsRan = ++cmdsRan
                 const then = Date.now();
-                bot.sendMessage({
-                    to: channelID,
-                    message: 'Pinging...'
-                }, function (err, res) {
-                    bot.editMessage({
-                        channelID: channelID,
-                        messageID: res.id,
-                        message: 'Pong! ' + (Date.now() - then) + 'ms'
+                exec('ping -c 1 104.16.59.5', function(error, stdout, stderr) {
+                    var apiPingTime = stdout.split('time=').splice(1).join('').split('ms\n')
+                    bot.sendMessage({
+                        to: channelID,
+                        message: 'Pinging...'
+                    }, function (err, res) {
+                        bot.editMessage({
+                            channelID: channelID,
+                            messageID: res.id,
+                            message: 'Pong! Message Edit Time: ' + (Date.now() - then) + 'ms\nAPI Ping Time: ' + apiPingTime[0] + 'ms'
+                        });
                     });
-                })
+                });
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1732,7 +1735,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
             case 'pingapi':
                 exec('ping -c 1 104.16.59.5', function(error, stdout, stderr) {
                     var apiPingTime = stdout.split('time=').splice(1).join('').split('ms\n')
-                    sendAMessage(channelID, apiPingTime[0])
                 });
 
                 

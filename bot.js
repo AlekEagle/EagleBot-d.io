@@ -1315,6 +1315,25 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         if (typeof evaluation !== "string") {
                             evaluation = require('util').inspect(evaluation)
                         }
+                        if (evaluation.length > 2000) {
+                            bot.sendMessage({
+                                to: channelID,
+                                message: 'Output too large, please wait while I pack the output into a file.'
+                            }, function(err, res) {
+                                fs.writeFile('eval_output.txt', stdout, (err) => {
+                                    if (err != undefined) {
+                                        sendAMessage(channelID, 'An error occurred while this action was being preformed error code: ' + err.code)
+                                    }else {
+                                        bot.uploadFile({
+                                            to: channelID,
+                                            file: 'eval_output.txt'
+                                        }, (err) => {
+                                            fs.unlink('eval_output.txt');
+                                        });
+                                    }
+                                });
+                            })
+                        }
                         sendAMessage(channelID, clean(evaluation));
                     } catch (err) {
                         sendAMessage(channelID, 'OOF: ' + clean(err))
@@ -1433,7 +1452,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     }, (err) => {
                                         fs.writeFile('exec_output.txt', stdout, (err) => {
                                             if (err != undefined) {
-                                                sendAMessage(channelID, 'An error occurred while this action was happening error code: ' + err.code)
+                                                sendAMessage(channelID, 'An error occurred while this action was being preformed error code: ' + err.code)
                                             }else {
                                                 bot.uploadFile({
                                                     to: channelID,

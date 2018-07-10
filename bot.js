@@ -721,7 +721,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'whatsnew':
                 cmdsRan = ++cmdsRan
-                sendAMessage(channelID, 'Bot version: `1.2.0 the "AlekEagle#6978 got to work" update`\nAdded s\'more outputs to `a}blowup`.')
+                sendAMessage(channelID, 'Bot version: `1.3.7 the "AlekEagle#6978 got to work" update`\nAdded too much stuff to even list.')
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID

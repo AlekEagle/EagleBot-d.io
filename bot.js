@@ -1312,6 +1312,9 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     try {
                         var evalCommand = message.split(' ').splice(1).join(' ');
                         let evaluation = eval(evalCommand);
+                        if (typeof evaluation !== "string") {
+                            evaluation = require('util').inspect(evaluation)
+                        }
                         sendAMessage(channelID, clean(evaluation));
                     } catch (err) {
                         sendAMessage(channelID, 'OOF: ' + clean(err))

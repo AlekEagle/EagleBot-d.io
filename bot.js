@@ -1064,7 +1064,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
             break;
             case 'github':
                 cmdsRan = ++cmdsRan
-                sendAMessage(channelID, 'here: https://github.com/AlekEagleYT/Discord-Bot')
+                sendAMessage(channelID, 'here: https://github.com/AlekEagleYT/EagleBot')
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID

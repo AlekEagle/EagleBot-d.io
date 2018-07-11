@@ -1283,7 +1283,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         userID: userID
                     }, function(e, bb) {
                         console.log(bb);
-                        console.log('Tried to use stapandreboot!');
+                        console.log('Tried to use reboot!');
                     });
                 }
             break;

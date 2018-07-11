@@ -1293,7 +1293,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     try {
                         var evalCommand = message.split(' ').splice(1).join(' ');
                         let evaluation = eval(evalCommand);
-                        evaluation = evaluation.replace(u_wot_m8.token, 'You are fucking retarted if you thought you were going to get something out of that.').replace(u_wot_m8.dblToken, 'You are fucking retarted if you thought you were going to get something out of that.')
                         if (typeof evaluation !== "string") {
                             evaluation = require('util').inspect(evaluation)
                         }

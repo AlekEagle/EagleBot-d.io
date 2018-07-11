@@ -9,14 +9,6 @@ function puts(error, stdout, stderr) { sys.puts(stdout) }
 var cmdsRan = 0
 var messagesRead = 0
 const request = require('request');
-const pmx = require('pmx').init({
-    http : true,
-    ignore_routes : [/socket\.io/, /notFound/],
-    errors : true,
-    custom_probes : true,
-    network : true,
-    ports : true
-});
 function clean(text) {
     if (typeof(text) === "string")
       return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
@@ -62,16 +54,6 @@ bot.on('ready', function (evt) {
     console.log('Connected');
     console.log('Logged in as: ');
     console.log(bot.username + ' - (' + bot.id + ')');
-    sendAMessage('466276525759528960', 'Successfully launched!')
-});
-pmx.action('setplaying:text', function(param, reply) {
-    console.log(param)
-    bot.setPresence({
-        game: {
-            name: param
-        }
-    });
-    reply({success : true});
 });
 function sendAMessage(ch, message) {
     bot.sendMessage({
@@ -1291,7 +1273,6 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 cmdsRan = ++cmdsRan
                 if (userID == creatorID) {
                     sendAMessage(channelID, 'Alright AlekEagle, bye world, for now at least.')
-                    sendAMessage('466276525759528960', 'Stopping process!')
                     setTimeout(() => {
                         process.exit(0);
                     }, 5000);
@@ -1313,7 +1294,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         var evalCommand = message.split(' ').splice(1).join(' ');
                         let evaluation = eval(evalCommand);
                         if (typeof evaluation !== "string") {
-                            evaluation = require('util').inspect(evaluation)
+                            evaluation = require('util').inspect(evaluation.replace(u_wot_m8.token, 'You are fucking retarted if you thought you were going to get something out of that.'))
                         }
                         if (evaluation.length > 2000) {
                             bot.sendMessage({
@@ -1440,7 +1421,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         to: channelID,
                         message: 'Executing, Please Wait'
                     }, (err, res) => {
-                        var execCommand = message.split(' ').splice(1).join(' ');
+                        var execCommand = message.split(' ').splice(1).join(' ').replace(/.auth.json/g, 'auth.json');
                         var execOutput = '';
                         exec(execCommand, function (error, stdout, stderr) {
                             if (error != undefined && stderr != undefined) {
@@ -1794,6 +1775,28 @@ bot.on('message', function (user, userID, channelID, message, event) {
             case 'pingapi':
                 exec('ping -c 1 104.16.59.5', function(error, stdout, stderr) {
                     var apiPingTime = stdout.split('time=').splice(1).join('').split('ms\n')
+                });
+            break;
+            case 'testmusic':
+                //Let's join the voice channel, the ID is whatever your voice channel's ID is.
+                bot.joinVoiceChannel('313371571261669379', function(error, events) {
+                //Check to see if any errors happen while joining.
+                if (error) return console.error(error);
+  
+                    //Then get the audio context
+                    bot.getAudioContext('313371571261669379', function(error, stream) {
+                    //Once again, check to see if any errors exist
+                    if (error) return console.error(error);
+  
+                        //Create a stream to your file and pipe it to the stream
+                        //Without {end: false}, it would close up the stream, so make sure to include that.
+                        fs.createReadStream('myFile.mp3').pipe(stream, {end: false});
+  
+                        //The stream fires `done` when it's got nothing else to send to Discord.
+                        stream.on('done', function() {
+                            //Handle
+                        });
+                    });
                 });
 
                 

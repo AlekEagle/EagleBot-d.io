@@ -135,8 +135,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(err, bb) {
-                    console.log(bb);
-                    console.log('Used help!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used help!');
                 });
             break;
             case 'curecancer':
@@ -149,9 +148,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                   bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
-                }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used curecancer!');
+                }, function(err, bb) {
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used curecancer!');
                 });
                 }else {
                         sendAMessage(channelID, 'You somehow cured all types of cancer! <@' + userID + '> actually did it! *We all thought you were crazy*')
@@ -164,9 +162,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     bot.getMember({
                         serverID: retrieveServerID(),
                         userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used curecancer!');
+                    }, function(err, bb) {
+                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used curecancer!');
                     });
                 }
             break;
@@ -204,9 +201,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     bot.getMember({
                                         serverID: retrieveServerID(),
                                         userID: userID
-                                    }, function(e, bb) {
-                                        console.log(bb);
-                                        console.log('Used setnick!');
+                                    }, function(err, bb) {
+                                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used setnick!');
                                     });
                                 });
                             }else {
@@ -222,9 +218,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             bot.getMember({
                                 serverID: retrieveServerID(),
                                 userID: userID
-                            }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use setnick!');
+                            }, function(err, bb) {
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use setnick!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -284,9 +279,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                         bot.getMember({
                                             serverID: retrieveServerID(),
                                             userID: userID
-                                        }, function(e, bb) {
-                                            console.log(bb);
-                                            console.log('Used del!');
+                                        }, function(err, bb) {
+                                            console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used del!');
                                         });
                                         
                                     });
@@ -305,9 +299,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             bot.getMember({
                                 serverID: retrieveServerID(),
                                 userID: userID
-                            }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use del!');
+                            }, function(err, bb) {
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use del!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -324,9 +317,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
-                }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used revivechat!');
+                }, function(err, bb) {
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used revivechat!');
                 });
             break;
             case 'deadchat':
@@ -335,9 +327,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
-                }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used deadchat!');
+                }, function(err, bb) {
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used deadchat!');
                 });
             break;
             case 'cancercured':
@@ -346,11 +337,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     timesCancerHasBeenCured = data.toString('utf8')
                     sendAMessage(channelID, 'cancer has been cured: ' + timesCancerHasBeenCured + ' times since me and AlekEagle started to keep track');
                     bot.getMember({
-                    serverID: retrieveServerID(),
-                    userID: userID
-                    }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Used revivechat!');
+                        serverID: retrieveServerID(),
+                        userID: userID
+                    }, function(err, bb) {
+                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used cancercured!');
                     });
                 });
             break;
@@ -379,9 +369,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 bot.getMember({
                                     serverID: retrieveServerID(),
                                     userID: userID
-                                }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used qotd!');
+                                }, function(err, bb) {
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used help!');
                                 });
                                 stopLoop = true;
                             }else {
@@ -397,9 +386,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             bot.getMember({
                                 serverID: retrieveServerID(),
                                 userID: userID
-                            }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use qotd!');
+                            }, function(err, bb) {
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used help!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -432,9 +420,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 bot.getMember({
                                     serverID: retrieveServerID(),
                                     userID: userID
-                                }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used announcement!');
+                                }, function(err, bb) {
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used announcement!');
                                 });
                             }else {
                                 y = ++y
@@ -449,9 +436,8 @@ bot.on('message', function (user, userID, channelID, message, event) {
                             bot.getMember({
                                 serverID: retrieveServerID(),
                                 userID: userID
-                            }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use announcement!');
+                            }, function(err, bb) {
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use announcement!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -491,8 +477,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     serverID: retrieveServerID(),
                                     userID: userID
                                 }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used grantrole!');
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used grantrole!');
                                 });
                                 stopLoop = true;
                             }else {
@@ -509,8 +494,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use grantrole!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use grantrole!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -550,8 +534,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     serverID: retrieveServerID(),
                                     userID: userID
                                 }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used revokerole!');
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used revokerole!');
                                 });
                                 stopLoop = true;
                             }else {
@@ -568,8 +551,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use revokerole!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use grantrole!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -595,23 +577,10 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         serverID: retrieveServerID(),
                         userID: userID
                     }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use setplaying!');
+                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used Tried to use setplaying!');
                     });
                 }
             	
-            break;
-            case 'test':
-                cmdsRan = ++cmdsRan
-                sendAMessage(channelID, 'Uhh... Umm... I don\'t think **AlekEagle#6978** is working on anything to test atm, *though, he is making a second prefix for beta commands, as soon as he figures out how to use prefixes that are longer than 1 character long*');
-                sendAMessage(channelID, 'ERR404: TEST CMD NOT FOUND')
-                bot.getMember({
-                    serverID: retrieveServerID(),
-                    userID: userID
-                }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used test!');
-                });
             break;
             case 'config':
                 cmdsRan = ++cmdsRan
@@ -639,8 +608,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                             serverID: retrieveServerID(),
                                             userID: userID
                                         }, function(e, bb) {
-                                            console.log(bb);
-                                            console.log('Used config!');
+                                            console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used config!');
                                         });
                     
                                     }else {
@@ -649,8 +617,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                             serverID: retrieveServerID(),
                                             userID: userID
                                         }, function(e, bb) {
-                                            console.log(bb);
-                                            console.log('Used config!');
+                                            console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used config!');
                                         });
                                     }
                                     delPrevMessage();
@@ -668,8 +635,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                         serverID: retrieveServerID(),
                                         userID: userID
                                     }, function(e, bb) {
-                                        console.log(bb);
-                                        console.log('Tried to use config!');
+                                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use config!');
                                     });
                                 } 
                             });
@@ -684,8 +650,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Used config!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used config!');
                             });
                         }else {
                             sendAMessage(channelID, 'Please use `,config op-roles (ping roles)`')
@@ -693,8 +658,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Used config!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used config!');
                             });
                         }
                         delPrevMessage();
@@ -708,14 +672,19 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used whatsnew!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used whatsnew!');
                 });
             break;
             case 'touch':
                 cmdsRan = ++cmdsRan
                 var touchCommand = message.split(' ').splice(1).join(' ').replace(/my/g, 'your').replace(/im/g, 'you\'re').replace(/i'm/g, 'you\'re').replace(/Im/g, 'you\'re').replace(/I'm/g, 'you\'re')
                 sendAMessage(channelID, '*touched ' + touchCommand + '*')
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used touch!');
+                });
             break;
             case 'ban':
                 cmdsRan = ++cmdsRan
@@ -741,8 +710,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Used ban!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used ban!');
                             });
                             stopLoop = true;
                             }else {
@@ -759,8 +727,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use ban!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use ban!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -793,8 +760,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Used unban!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used unban!');
                             });
                             stopLoop = true;
                             }else {
@@ -811,8 +777,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use unban!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use unban!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -845,8 +810,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Used kick!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used kick!');
                             });
                             stopLoop = true;
                             }else {
@@ -863,8 +827,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use kick!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use kick!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -881,8 +844,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used die!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used die!');
                 });
             break;
             case 'succ':
@@ -893,8 +855,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used succ!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used succ!');
                 });
             break;
             case 'meme':
@@ -912,8 +873,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                         serverID: retrieveServerID(),
                                         userID: userID
                                     }, function(e, bb) {
-                                        console.log(bb);
-                                        console.log('Used meme savememe and failed to save a meme! name of meme: ' + saveMemeCommand[0]);
+                                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used meme savememe and failed to save a meme! name of meme: ' + saveMemeCommand[0]);
                                     });
                                 }else {
                                     sendAMessage(channelID, 'Well, unfortunately, an error occurred, but I don\'t quite know what to do with this error code: `' + err.code + '` so because of this error the meme will not be saved.')
@@ -926,8 +886,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     serverID: retrieveServerID(),
                                     userID: userID
                                 }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used meme savememe and it saved successfully! name of meme: ' + saveMemeCommand[0]);
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used meme savememe and it saved successfully! name of meme: ' + saveMemeCommand[0]);
                                 });
                             }
                         })
@@ -940,8 +899,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Used meme showmeme!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used showmeme!');
                             });
                         });
                     break;
@@ -952,8 +910,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Used meme listmeme!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used listmeme!');
                             });
                         });
                     break;
@@ -969,8 +926,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Used die!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use delmeme!');
                             });
                         }
                 }
@@ -995,13 +951,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     userID: muteCommand
                                 })
                                 delPrevMessage();
-                                sendAMessage(channelID, 'Ok they am mute');
+                                sendAMessage(channelID, 'Ok they am mute in vc');
                                 bot.getMember({
                                     serverID: retrieveServerID(),
                                     userID: userID
                                 }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used mute!');
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used mute!');
                                 });
                                 stopLoop = true;
                             }else {
@@ -1018,8 +973,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use mute');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use mute!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -1035,8 +989,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used invite!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used invite!');
                 });
             break;
             case 'anti-hack':
@@ -1046,8 +999,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used anti-hack!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used anti-hack!');
                 });
             break;
             case 'github':
@@ -1057,8 +1009,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used github!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used github!');
                 });
             break;
             case 'emoji':
@@ -1070,8 +1021,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used emoji!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used emoji!');
                 });
             break;
             case 'unmute':
@@ -1094,14 +1044,13 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     userID: unmuteCommand
                                 })
                                 delPrevMessage();
-                                sendAMessage(channelID, 'Ok they am unmute');
+                                sendAMessage(channelID, 'Ok they am unmute in vc');
                                 stopLoop = true;
                                 bot.getMember({
                                     serverID: retrieveServerID(),
                                     userID: userID
                                 }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used unmute!');
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used unmute!');
                                 });
                             }else {
                                 y = ++y
@@ -1117,8 +1066,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use unmute!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use unmute!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -1148,13 +1096,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     userID: deafenCommand
                                 })
                                 delPrevMessage();
-                                sendAMessage(channelID, 'Ok they am deaf');
+                                sendAMessage(channelID, 'Ok they am deaf in vc');
                                 bot.getMember({
                                     serverID: retrieveServerID(),
                                     userID: userID
                                 }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used deafen!');
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used deafen!');
                                 });
                             }else {
                                 y = ++y
@@ -1170,8 +1117,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('Tried to use deafen!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use deafen!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -1201,13 +1147,12 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                     userID: undeafenCommand
                                 })
                                 delPrevMessage();
-                                sendAMessage(channelID, 'Ok they am undeafen');
+                                sendAMessage(channelID, 'Ok they am undeaf in vc');
                                 bot.getMember({
                                     serverID: retrieveServerID(),
                                     userID: userID
                                 }, function(e, bb) {
-                                    console.log(bb);
-                                    console.log('Used undeafen!');
+                                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used undeafen!');
                                 });
                             }else {
                                 y = ++y
@@ -1223,8 +1168,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                                 serverID: retrieveServerID(),
                                 userID: userID
                             }, function(e, bb) {
-                                console.log(bb);
-                                console.log('tried to use undeafen!');
+                                console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use undeafen!');
                             });
                         } 
                         //    console.log('tag: \'' + vals[0] + '\' vals: \''+ vals[1] + '\'')
@@ -1250,8 +1194,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used info!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used info!');
                 });
             break;
             case 'uptime':
@@ -1265,8 +1208,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used uptime!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used uptime!');
                 });
             break;
             case 'reboot':
@@ -1282,8 +1224,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         serverID: retrieveServerID(),
                         userID: userID
                     }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use reboot!');
+                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use reboot!');
                     });
                 }
             break;
@@ -1325,8 +1266,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         serverID: retrieveServerID(),
                         userID: userID
                     }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use eval!');
+                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use eval!');
                     });
                 }
             break;
@@ -1360,8 +1300,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used blowup!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used blowup!');
                 });
             break;
             case 'ping':
@@ -1384,8 +1323,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used ping!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used ping!');
                 });
             break;
             case 'reportbug':
@@ -1397,8 +1335,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }, function(e, bb) {
                     sendAMessage('460517257853009920', '**__' + bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ')' + ' reported the bug: __**' + reportBugCommand);
                     sendAMessage(channelID, 'The bug has been reported <@' + userID + '>!')
-                    console.log(bb);
-                    console.log('Used reportbug!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used reportbug!');
                 });
             break;
             case 'suggestcmd':
@@ -1410,8 +1347,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }, function(e, bb) {
                     sendAMessage('460517321824403456', '**__' + bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ')' + ' suggested the command: __**' + suggestCmdCommand);
                     sendAMessage(channelID, 'That has been suggested! Thank you <@' + userID + '>!')
-                    console.log(bb);
-                    console.log('Used suggestcmd!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used suggestcmd!');
                 });
             break;
             case 'exec':
@@ -1491,8 +1427,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         serverID: retrieveServerID(),
                         userID: userID
                     }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use exec!');
+                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use exec!');
                     });
                 }
             break;
@@ -1503,8 +1438,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used vote!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used vote!');
                 });
             break;
             case 'token':
@@ -1514,8 +1448,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Tried to get the token but failed because it\'s not it!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to get the token but failed because that\'s not it!');
                 });
             break;
             case 'todo':
@@ -1588,8 +1521,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                         serverID: retrieveServerID(),
                         userID: userID
                     }, function(e, bb) {
-                        console.log(bb);
-                        console.log('Tried to use todo!');
+                        console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to use todo!');
                     });
                 }
             break;
@@ -1600,8 +1532,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used yeet!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used yeet!');
                 });
             break;
             case 'dbl':
@@ -1632,8 +1563,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used dbl!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used dbl!');
                 });
                 });
             break;
@@ -1665,8 +1595,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used avatar!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used avatar!');
                 });
             break;
             case 'react':
@@ -1681,8 +1610,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used react!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used react!');
                 });
             break;
             case 'getemoji':
@@ -1708,8 +1636,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Used getemoji!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used getemoji!');
                 });
             break;
             case 'givemediscordnitro':
@@ -1719,8 +1646,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     serverID: retrieveServerID(),
                     userID: userID
                 }, function(e, bb) {
-                    console.log(bb);
-                    console.log('Tried to get Discord Nitro!');
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to get Discord Nitro!');
                 });
         }
     }

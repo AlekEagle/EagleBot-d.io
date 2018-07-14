@@ -1681,7 +1681,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
                      if (amountOfTrap === 69) {
                          sendAMessage(channnelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap ( ͡° ͜ʖ ͡°)\n' + '<:trap:467720027135803392>'.repeat(amountOfTrap))
                      }else {
-                         sendAMessage(channelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap\n' + '<:trap:467720027135803392>'.repeat(amountOfGay))
+                         sendAMessage(channelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap\n' + '<:trap:467720027135803392>'.repeat(amountOfTrap))
                      }
                 }
                 bot.getMember({

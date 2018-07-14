@@ -77,6 +77,7 @@ function outputLog(err, res) {
     }
 }
 bot.on("guildCreate", function guildCreate() {
+    console.log('I just got invited to another server!')
     request.post({
         headers: {
             "Authorization": u_wot_m8.dblToken,
@@ -88,6 +89,7 @@ bot.on("guildCreate", function guildCreate() {
     });
 });
 bot.on("guildDelete", function guildDelete() {
+    console.log('I just left a server!')
     request.post({
         headers: {
             "Authorization": u_wot_m8.dblToken,
@@ -1647,6 +1649,18 @@ bot.on('message', function (user, userID, channelID, message, event) {
                     userID: userID
                 }, function(e, bb) {
                     console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Tried to get Discord Nitro!');
+                });
+           break;
+           case 'howgay':
+               cmdsRan = ++cmdsRan
+               var howGayCommand = message.split(' ').splice(1).join(' ')
+               var amountOfGay = Math.floor(Math.random() *101);
+               sendAMessage(channelID, howGayCommand + ' is: ' + amountOfGay + '% gay\n' + '🏳️‍🌈'.repeat(amountOfGay))
+               bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used howgay!');
                 });
         }
     }

@@ -1654,7 +1654,7 @@ bot.on('message', function (user, userID, channelID, message, event) {
            case 'howgay':
                cmdsRan = ++cmdsRan
                var howGayCommand = message.split(' ').splice(1).join(' ')
-               var amountOfGay = Math.floor(Math.random() *101);
+               var amountOfGay = Math.floor(Math.random() * 101);
                sendAMessage(channelID, howGayCommand + ' is: ' + amountOfGay + '% gay\n' + '🏳️‍🌈'.repeat(amountOfGay))
                bot.getMember({
                     serverID: retrieveServerID(),
@@ -1662,6 +1662,19 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 }, function(e, bb) {
                     console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used howgay!');
                 });
+            break;
+            case 'howtrap':
+                cmdsRan = ++cmdsRan
+                var howTrapCommand = message.split(' ').splice(1).join(' ')
+                var amountOfTrap = Math.floor(Math.random() * 101);
+                sendAMessage(channelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap\n' + '<:trap:467720027135803392>'.repeat(amountOfTrap))
+                bot.getMember({
+                    serverID: retrieveServerID(),
+                    userID: userID
+                }, function(e, bb) {
+                    console.log(bb.user.username + '#' + bb.user.discriminator + ' (' + bb.user.id + ') Used howtrap!');
+                });
+            break;
         }
     }
     if (message.substring(0, 2) == betaPrefix && bot.users[userID].bot == false) {

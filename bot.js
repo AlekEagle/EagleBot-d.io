@@ -1655,7 +1655,15 @@ bot.on('message', function (user, userID, channelID, message, event) {
                cmdsRan = ++cmdsRan
                var howGayCommand = message.split(' ').splice(1).join(' ')
                var amountOfGay = Math.floor(Math.random() * 101);
-               sendAMessage(channelID, howGayCommand + ' is: ' + amountOfGay + '% gay\n' + '🏳️‍🌈'.repeat(amountOfGay))
+               if (amountOfGay === 0) {
+                   sendAMessage(channelID, howGayCommand + ' is not gay.')
+               }else {
+                    if (amountOfGay === 69) {
+                        sendAMessage(channelID, howGayCommand + ' is: ' + amountOfGay + '% gay ( ͡° ͜ʖ ͡°)\n' + '🏳️‍🌈'.repeat(amountOfGay))
+                    }else {
+                        sendAMessage(channelID, howGayCommand + ' is: ' + amountOfGay + '% gay\n' + '🏳️‍🌈'.repeat(amountOfGay))
+                    }
+               }
                bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID
@@ -1667,7 +1675,15 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 cmdsRan = ++cmdsRan
                 var howTrapCommand = message.split(' ').splice(1).join(' ')
                 var amountOfTrap = Math.floor(Math.random() * 101);
-                sendAMessage(channelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap\n' + '<:trap:467720027135803392>'.repeat(amountOfTrap))
+                if (amountOfTrap === 0) {
+                    sendAMessage(channelID, howTrapCommand + ' is not gay.')
+                }else {
+                     if (amountOfTrap === 69) {
+                         sendAMessage(channnelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap ( ͡° ͜ʖ ͡°)\n' + '<:trap:467720027135803392>'.repeat(amountOfTrap))
+                     }else {
+                         sendAMessage(channelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap\n' + '<:trap:467720027135803392>'.repeat(amountOfGay))
+                     }
+                }
                 bot.getMember({
                     serverID: retrieveServerID(),
                     userID: userID

@@ -1675,13 +1675,16 @@ bot.on('message', function (user, userID, channelID, message, event) {
                 cmdsRan = ++cmdsRan
                 var howTrapCommand = message.split(' ').splice(1).join(' ')
                 var amountOfTrap = Math.floor(Math.random() * 101);
+                //var amountOfTrap = 100
                 if (amountOfTrap === 0) {
                     sendAMessage(channelID, howTrapCommand + ' is not gay.')
                 }else {
                      if (amountOfTrap === 69) {
                          sendAMessage(channnelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap ( ͡° ͜ʖ ͡°)\n' + '<:trap:467720027135803392>'.repeat(amountOfTrap))
                      }else {
-                         sendAMessage(channelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap\n' + '<:trap:467720027135803392>'.repeat(amountOfTrap))
+                         var trap = howTrapCommand + ' is: ' + amountOfTrap + '% trap\n' + '<:trap:467720027135803392>'.repeat(amountOfTrap)
+                         sendAMessage(channelID, howTrapCommand + ' is: ' + amountOfTrap + '% trap\n' + ''.repeat(amountOfTrap))
+                         console.log(trap.length)
                      }
                 }
                 bot.getMember({
